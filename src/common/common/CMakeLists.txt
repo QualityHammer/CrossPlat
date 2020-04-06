@@ -3,3 +3,4 @@ add_library(cplat_common
 )
 
 set_compiler_flags(cplat_common)
+set_property(TARGET cplat_common PROPERTY FOLDER "Common")
