@@ -14,7 +14,7 @@ namespace ImagePack {
                 for (size_t j{0}; j < h; j++) {
                     size_t cx = x + i;
                     size_t cy = y + j;
-                    assert(cx < img_w && cy < img_h);
+                    if (cx >= img_w || cy >= img_h) continue;
                     img[cx + cy * img_w] = color;
                 }
             }
@@ -39,9 +39,9 @@ namespace ImagePack {
     }
 
     void generateImage() {
-        constexpr size_t win_w{512};
+        constexpr size_t win_w{1024};
         constexpr size_t win_h{512};
-        Image framebuffer{win_w * win_h, {255, 0, 0, 255}};
+        Image framebuffer{win_w * win_h, packColor(255, 255, 255)};
 
         const size_t map_w = 16; // map width
         const size_t map_h = 16; // map height
@@ -67,18 +67,8 @@ namespace ImagePack {
         float player_a{1.323};
         const float fov{M_PI / 3};
 
-        // Create gradient
-        for (size_t j{0}; j < win_h; j++) {
-            for (size_t i{0}; i < win_w; i++) {
-                u8 r{static_cast<u8>(255 * j / float(win_h))};
-                u8 g{static_cast<u8>(255 * i / float(win_w))};
-                u8 b{0};
-                framebuffer[i + j * win_w] = packColor(r, g, b);
-            }
-        }
-
         // Create map overlay
-        const size_t rect_w{win_w / map_w};
+        const size_t rect_w{win_w / (map_w * 2)};
         const size_t rect_h{win_h / map_h};
         for (size_t j{0}; j < map_h; j++) {
             for (size_t i{0}; i < map_w; i++) {
@@ -91,21 +81,24 @@ namespace ImagePack {
             }
         }
 
-        // Player position
-        Draw::rectangle(framebuffer, win_w, win_h, player_x * rect_w,
-                        player_y * rect_h, 5, 5, packColor(255, 255, 255));
-
         // Fov tracer
-        for (size_t i{0}; i < win_w; i++) {
-            float angle{player_a - fov / 2 + fov * i / float(win_w)};
+        for (size_t i{0}; i < win_w / 2; i++) {
+            float angle{player_a - fov / 2 + fov * i / float(win_w / 2)};
             for (float t{0.0}; t < 20.0; t += 0.05) {
                 float cx{player_x + t * std::cos(angle)};
                 float cy{player_y + t * std::sin(angle)};
-                if (gMap[int(cx) + int(cy) * map_w] != ' ') break;
 
                 size_t pix_x{cx * rect_w};
                 size_t pix_y{cy * rect_h};
-                framebuffer[pix_x + pix_y * win_w] = packColor(255, 255, 255);
+                framebuffer[pix_x + pix_y * win_w] = packColor(160, 160, 160);
+
+                if (gMap[int(cx) + int(cy) * map_w] != ' ') {
+                    size_t column_height{win_h / t};
+                    Draw::rectangle(framebuffer, win_w, win_h, win_w / 2 + i,
+                                    win_h / 2 - column_height / 2, 1,
+                                    column_height, packColor(0, 255, 255));
+                    break;
+                }
             }
         }
 
