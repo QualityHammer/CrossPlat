@@ -48,6 +48,7 @@ function (include_all target)
 	target_include_directories(${target}
 		PRIVATE
 		"${CMAKE_CURRENT_SOURCE_DIR}/src"
+		${SDL2_INCLUDE_DIR}
 	)
 endfunction(include_all)
 
@@ -56,23 +57,22 @@ function (link_all target)
 		cplat_client
 		cplat_common
 		cplat_server
-		${SDL2_LIBRARY}
 	)
 endfunction(link_all)
+
+find_package(SDL2 REQUIRED)
 
 add_subdirectory(src/client)
 add_subdirectory(src/common/common)
 add_subdirectory(src/server)
 
+add_executable(${PROJECT_NAME}
+	src/Main.cpp
+)
+
 target_include_directories(cplat_server
 	PRIVATE
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/common"
-)
-
-find_package(SDL2 REQUIRED)
-
-add_executable(${PROJECT_NAME}
-	src/Main.cpp
 )
 
 target_include_directories(cplat_client
