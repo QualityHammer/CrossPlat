@@ -65,6 +65,7 @@ namespace ImagePack {
         float player_x{3.456};
         float player_y{2.345};
         float player_a{1.323};
+        const float fov{M_PI / 3};
 
         // Create gradient
         for (size_t j{0}; j < win_h; j++) {
@@ -94,15 +95,18 @@ namespace ImagePack {
         Draw::rectangle(framebuffer, win_w, win_h, player_x * rect_w,
                         player_y * rect_h, 5, 5, packColor(255, 255, 255));
 
-        // Raytracer
-        for (float t{0.0}; t < 20.0; t += 0.05) {
-            float cx{player_x + t * std::cos(player_a)};
-            float cy{player_y + t * std::sin(player_a)};
-            if (gMap[int(cx) + int(cy) * map_w] != ' ') break;
+        // Fov tracer
+        for (size_t i{0}; i < win_w; i++) {
+            float angle{player_a - fov / 2 + fov * i / float(win_w)};
+            for (float t{0.0}; t < 20.0; t += 0.05) {
+                float cx{player_x + t * std::cos(angle)};
+                float cy{player_y + t * std::sin(angle)};
+                if (gMap[int(cx) + int(cy) * map_w] != ' ') break;
 
-            size_t pix_x{cx * rect_w};
-            size_t pix_y{cy * rect_h};
-            framebuffer[pix_x + pix_y * win_w] = packColor(255, 255, 255);
+                size_t pix_x{cx * rect_w};
+                size_t pix_y{cy * rect_h};
+                framebuffer[pix_x + pix_y * win_w] = packColor(255, 255, 255);
+            }
         }
 
         ppmImageCreate("./out.ppm", framebuffer, win_w, win_h);
