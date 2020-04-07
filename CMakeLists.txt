@@ -48,6 +48,8 @@ function (include_all target)
 	target_include_directories(${target}
 		PRIVATE
 		"${CMAKE_CURRENT_SOURCE_DIR}/src"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/server"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/common"
 		${SDL2_INCLUDE_DIR}
 	)
 endfunction(include_all)
@@ -62,9 +64,9 @@ endfunction(link_all)
 
 find_package(SDL2 REQUIRED)
 
-add_subdirectory(src/client)
 add_subdirectory(src/common/common)
 add_subdirectory(src/server)
+add_subdirectory(src/client)
 
 add_executable(${PROJECT_NAME}
 	src/Main.cpp

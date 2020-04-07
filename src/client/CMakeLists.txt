@@ -2,6 +2,7 @@ add_library(cplat_client
 	Client.cpp
 	SDLErrors.cpp
 	Window.cpp
+	Image.cpp
 )
 
 set_compiler_flags(cplat_client)
