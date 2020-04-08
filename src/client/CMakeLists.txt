@@ -1,27 +1,39 @@
+set (render_h
+    render/SDLErrors.h
+    render/Window.h
+    render/Image.h
+    render/RenderTypes.h
+    render/Render.h
+)
+
+set (render
+    render/SDLErrors.cpp
+    render/Window.cpp
+    render/Image.cpp
+    render/Render.cpp
+)
+
 add_library(cplat_client
 	Client.cpp
-	SDLErrors.cpp
-	Window.cpp
-	Image.cpp
-    Render.cpp
     GameState.cpp
+    ${render}
  
     Client.h
-    SDLErrors.h
-    Window.h
-    Image.h
     ClientOptions.h
-    RenderTypes.h
-    Render.h
     GameState.h
+    ${render_h}
 )
 
 set_compiler_flags(cplat_client)
-set_property(TARGET cplat_client PROPERTY FOLDER "Client")
+
+# Set folder structure for IDEs
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
+            PREFIX "Header Files" FILES ${render_h})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
+            PREFIX "Source Files" FILES ${render})
 
 target_link_libraries(cplat_client
 	cplat_common
 	cplat_server
-    utils
 	${SDL2_LIBRARY}
 )

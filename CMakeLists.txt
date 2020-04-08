@@ -66,7 +66,7 @@ endfunction(link_all)
 
 find_package(SDL2 REQUIRED)
 
-add_subdirectory(dependencies)
+#add_subdirectory(dependencies)
 
 add_subdirectory(src/common/common)
 add_subdirectory(src/server)
