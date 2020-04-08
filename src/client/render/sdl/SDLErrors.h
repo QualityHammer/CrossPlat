@@ -14,12 +14,12 @@ enum class SDLErrorMsg : u8 {
 
 using SDLErrorMsgArray = std::array<std::string,
 	static_cast<u8>(SDLErrorMsg::MSG_COUNT)>;
-namespace SDLErrorHandler {
-	void SDLError(const SDLErrorMsg msg);
 
-	const SDLErrorMsgArray errorMsgStrings{ {
-			"SDL could not initialize!",
-			"Window could not be created!",
-            "Renderer could not be created!",
-	} };
-}
+const SDLErrorMsgArray errorMsgStrings{ {
+        "SDL could not initialize!",
+        "Window could not be created!",
+        "Renderer could not be created!",
+} };
+
+extern void SDLError(const SDLErrorMsg msg);
+

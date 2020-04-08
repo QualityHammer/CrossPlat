@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "RenderTypes.h"
+#include "../RenderTypes.h"
 
 namespace Client {
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../GameState.h"
-#include "TextureManager.h"
+#include "texture/TextureManager.h"
 #include "RenderTypes.h"
 #include <common/Types.h>
 

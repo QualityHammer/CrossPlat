@@ -1,9 +1,5 @@
 #include "Image.h"
 
-#include <cassert>
-#include <fstream>
-#include <iostream>
-#include <cmath>
 #define STB_IMAGE_IMPLEMENTATION
 #include <utils/stb_image.h>
 

@@ -2,9 +2,9 @@
 
 #include <SDL.h>
 
-#include "../GameState.h"
-#include "Image.h"
-#include "TextureManager.h"
+#include <common/Types.h>
+#include "../../GameState.h"
+#include "../texture/TextureManager.h"
 
 namespace Client {
 
@@ -20,14 +20,14 @@ public:
     
     void draw(const GameState& gameState);
 private:
-    WindowStatus init();
+    TextureManager m_textureManager;
 
     SDL_Window* m_mainWindow;
     SDL_Renderer* m_renderer;
     SDL_Texture* m_screenTexture;
     Pixels m_screenPixels;
     
-    TextureManager m_textureManager;
+    WindowStatus init();
 };
 
 }

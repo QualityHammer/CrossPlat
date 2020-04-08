@@ -1,14 +1,14 @@
 #include "Window.h"
 
-#include "../ClientOptions.h"
+#include "../../ClientOptions.h"
+#include "../Render.h"
 #include "SDLErrors.h"
-#include "Render.h"
 
 namespace Client {
 
-Window::Window() : m_mainWindow{ nullptr },
-m_renderer{nullptr}, m_screenTexture{nullptr},
-m_screenPixels{}, m_textureManager{} {
+Window::Window() : m_textureManager{},
+m_mainWindow{nullptr}, m_renderer{nullptr},
+m_screenTexture{nullptr}, m_screenPixels{} {
     if (init() != WindowStatus::GOOD) {
         exit(1);
     }
@@ -29,7 +29,7 @@ Window::~Window() {
 
 WindowStatus Window::init() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        SDLErrorHandler::SDLError(SDLErrorMsg::INIT);
+        SDLError(SDLErrorMsg::INIT);
         return WindowStatus::FAILED;
     }
     
@@ -45,15 +45,14 @@ WindowStatus Window::init() {
         SDL_WINDOW_SHOWN
     );
     if (m_mainWindow == nullptr) {
-        SDLErrorHandler::SDLError(SDLErrorMsg::WINDOW_INIT);
+        SDLError(SDLErrorMsg::WINDOW_INIT);
         return WindowStatus::FAILED;
     }
     
     m_renderer = SDL_CreateRenderer
         (m_mainWindow, -1, SDL_RENDERER_ACCELERATED);
     if (m_renderer == nullptr) {
-        SDLErrorHandler::SDLError
-        (SDLErrorMsg::RENDERER_INIT);
+        SDLError(SDLErrorMsg::RENDERER_INIT);
         return WindowStatus::FAILED;
     }
     SDL_SetRenderDrawColor(m_renderer, 0, 0,

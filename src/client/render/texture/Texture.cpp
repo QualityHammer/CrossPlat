@@ -1,8 +1,7 @@
 #include "Texture.h"
 
+#include "../Image.h"
 #include "TextureErrors.h"
-
-#include "Image.h"
 
 namespace Client {
 
