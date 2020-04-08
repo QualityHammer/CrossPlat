@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Window.h"
-#include "RenderTypes.h"
+#include "render/Window.h"
 #include "GameState.h"
 
 namespace Client {

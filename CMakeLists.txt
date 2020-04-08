@@ -60,7 +60,6 @@ function (link_all target)
 		cplat_client
 		cplat_common
 		cplat_server
-        utils
 	)
 endfunction(link_all)
 

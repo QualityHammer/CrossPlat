@@ -4,6 +4,9 @@ set (render_h
     render/Image.h
     render/RenderTypes.h
     render/Render.h
+    render/TextureManager.h
+    render/Texture.h
+    render/TextureErrors.h
 )
 
 set (render
@@ -11,6 +14,9 @@ set (render
     render/Window.cpp
     render/Image.cpp
     render/Render.cpp
+    render/TextureManager.cpp
+    render/Texture.cpp
+    render/TextureErrors.cpp
 )
 
 add_library(cplat_client

@@ -1,6 +1,6 @@
 #include "Client.h"
 
-#include "RenderTypes.h"
+#include "render/RenderTypes.h"
 
 namespace Client {
 

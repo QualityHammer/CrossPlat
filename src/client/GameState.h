@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RenderTypes.h"
+#include "render/RenderTypes.h"
 
 namespace Client {
 

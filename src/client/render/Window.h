@@ -2,8 +2,9 @@
 
 #include <SDL.h>
 
+#include "../GameState.h"
 #include "Image.h"
-#include "GameState.h"
+#include "TextureManager.h"
 
 namespace Client {
 
@@ -26,7 +27,7 @@ private:
     SDL_Texture* m_screenTexture;
     Pixels m_screenPixels;
     
-    Pixels m_wall;
+    TextureManager m_textureManager;
 };
 
 }
