@@ -47,6 +47,7 @@ endfunction(set_compiler_flags)
 function (include_all target)
 	target_include_directories(${target}
 		PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/dependencies"
 		"${CMAKE_CURRENT_SOURCE_DIR}/src"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/server"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/common"
@@ -79,6 +80,7 @@ target_include_directories(cplat_server
 
 target_include_directories(cplat_client
 	PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/dependencies"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/server"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/common"
 	${SDL2_INCLUDE_DIR}

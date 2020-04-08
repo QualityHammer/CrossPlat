@@ -3,6 +3,17 @@ add_library(cplat_client
 	SDLErrors.cpp
 	Window.cpp
 	Image.cpp
+    Render.cpp
+    GameState.cpp
+ 
+    Client.h
+    SDLErrors.h
+    Window.h
+    Image.h
+    ClientOptions.h
+    RenderTypes.h
+    Render.h
+    GameState.h
 )
 
 set_compiler_flags(cplat_client)

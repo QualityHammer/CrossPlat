@@ -8,6 +8,7 @@
 enum class SDLErrorMsg : u8 {
 	INIT,
 	WINDOW_INIT,
+    RENDERER_INIT,
 	MSG_COUNT
 };
 
@@ -19,5 +20,6 @@ namespace SDLErrorHandler {
 	const SDLErrorMsgArray errorMsgStrings{ {
 			"SDL could not initialize!",
 			"Window could not be created!",
+            "Renderer could not be created!",
 	} };
 }

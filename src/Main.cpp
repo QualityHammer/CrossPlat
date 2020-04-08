@@ -1,7 +1,8 @@
-#include "client/Image.h"
+#include "client/Client.h"
 
 
 int main() {
-    ImagePack::generateImage();
+    Client::ClientEngine client{};
+    client.run();
 	return 0;
 }

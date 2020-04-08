@@ -1,5 +1,7 @@
 add_library(cplat_server
 	Server.cpp
+ 
+    Server.h
 )
 
 set_compiler_flags(cplat_server)
