@@ -2,6 +2,8 @@
 
 #include "TextureErrors.h"
 
+#include "Image.h"
+
 namespace Client {
 
 Texture::Texture() {}

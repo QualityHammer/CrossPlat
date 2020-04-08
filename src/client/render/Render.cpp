@@ -7,23 +7,6 @@
 
 namespace Client {
 
-void renderRect(Pixels& pixels, const u16 x,
-                const u16 y, const u16 w,
-                const u16 h, const Color color) {
-    assert(pixels.size() ==
-           WINDOW_WIDTH * WINDOW_HEIGHT);
-    for (u16 i{0}; i < w; i++) {
-        for (u16 j{0}; j < h; j++) {
-            u16 cx{static_cast<u16>(x + i)};
-            u16 cy{static_cast<u16>(y + j)};
-            if (cx >= WINDOW_WIDTH ||
-                cy >= WINDOW_HEIGHT) continue;
-            pixels[cx + cy *
-                   WINDOW_WIDTH] = color;
-        }
-    }
-}
-
 Pixels textureColumn(const Texture& texture, const size_t texID,
                    const u16 coordX, const u16 columnHeight) {
     const size_t imgW{texture.size * texture.count};
