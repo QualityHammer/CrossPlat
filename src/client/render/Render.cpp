@@ -80,7 +80,7 @@ void render(const GameState& gameState, Pixels& pixels,
     const Player& player{gameState.player};
     const MapData& gMap{gameState.gMap};
     
-    std::fill(pixels.begin(), pixels.end(), 0);
+    std::fill(pixels.begin(), pixels.end(), 0xf05aaac8);
     for (u16 i{0}; i < WINDOW_WIDTH; i++) {
         float angle{player.a - FOV / 2 + FOV * i /
             (float)WINDOW_WIDTH
