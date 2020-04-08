@@ -25,6 +25,8 @@ private:
     SDL_Renderer* m_renderer;
     SDL_Texture* m_screenTexture;
     Pixels m_screenPixels;
+    
+    Pixels m_wall;
 };
 
 }

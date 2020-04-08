@@ -43,7 +43,7 @@ void render(const GameState& gameState, Pixels& pixels) {
                 renderRect(pixels, i,
                            WINDOW_HEIGHT / 2 - columnHeight,
                            1, columnHeight * 2,
-                           packColor(0, 255, 255));
+                           packColor(130, 130, 0));
                 break;
                 
             }

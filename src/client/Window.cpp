@@ -4,11 +4,14 @@
 #include "ClientOptions.h"
 #include "Render.h"
 
+size_t wallSize;
+size_t wallCnt;
+
 namespace Client {
 
 Window::Window() : m_mainWindow{ nullptr },
 m_renderer{nullptr}, m_screenTexture{nullptr},
-m_screenPixels{} {
+m_screenPixels{}, m_wall{} {
     if (init() != WindowStatus::GOOD) {
         exit(1);
     }
@@ -65,6 +68,12 @@ WindowStatus Window::init() {
                       SDL_TEXTUREACCESS_STREAMING,
                       WINDOW_WIDTH,
                       WINDOW_HEIGHT);
+    
+    if (!loadTexture("../../assets/walltext.png",
+                     m_wall, wallSize,
+                     wallCnt)) {
+        return WindowStatus::FAILED;
+    }
 
     return WindowStatus::GOOD;
 }

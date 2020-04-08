@@ -22,5 +22,6 @@ set_property(TARGET cplat_client PROPERTY FOLDER "Client")
 target_link_libraries(cplat_client
 	cplat_common
 	cplat_server
+    utils
 	${SDL2_LIBRARY}
 )
