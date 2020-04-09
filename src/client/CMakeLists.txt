@@ -19,6 +19,7 @@ set (input_h
 set (input
     input/InputManager.cpp
     input/MouseState.cpp
+    input/KeyboardState.cpp
 )
 
 set (sdl_h
@@ -90,5 +91,6 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
 target_link_libraries(cplat_client
 	cplat_common
 	cplat_server
+    enet
 	${SDL2_LIBRARY}
 )

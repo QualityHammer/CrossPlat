@@ -60,12 +60,13 @@ function (link_all target)
 		cplat_client
 		cplat_common
 		cplat_server
+        enet
 	)
 endfunction(link_all)
 
 find_package(SDL2 REQUIRED)
 
-#add_subdirectory(dependencies)
+add_subdirectory(dependencies)
 
 add_subdirectory(src/common/common)
 add_subdirectory(src/server)
@@ -77,6 +78,7 @@ add_executable(${PROJECT_NAME}
 
 target_include_directories(cplat_server
 	PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/common"
 )
 
