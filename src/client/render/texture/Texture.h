@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "../RenderTypes.h"
+#include "../Pixels.h"
 
 namespace Client {
 

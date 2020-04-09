@@ -1,6 +1,7 @@
 #pragma once
 
-#include "render/RenderTypes.h"
+#include "render/Player.h"
+#include "render/Pixels.h"
 #include <common/GameMap.h>
 
 namespace Client {

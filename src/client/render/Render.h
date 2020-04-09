@@ -2,7 +2,7 @@
 
 #include "../GameState.h"
 #include "texture/TextureManager.h"
-#include "RenderTypes.h"
+#include "Pixels.h"
 #include <common/Types.h>
 #include <common/GameMap.h>
 

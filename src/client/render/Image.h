@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "RenderTypes.h"
+#include "Pixels.h"
 #include <common/Types.h>
 
 namespace Client {

@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-#include "render/RenderTypes.h"
+#include "render/Pixels.h"
 #include <common/PlayerControl.h>
 
 namespace Client {
