@@ -1,6 +1,7 @@
 #pragma once
 
 #include "render/RenderTypes.h"
+#include <common/GameMap.h>
 
 namespace Client {
 
@@ -9,7 +10,7 @@ public:
     GameState();
     
     Player player;
-    MapData gMap;
+    Common::GameMap gMap;
 };
 
 }

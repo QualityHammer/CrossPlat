@@ -9,7 +9,8 @@
 namespace Client {
 
 enum class TextureName : size_t {
-    WALL,
+    SUNROOM,
+    KITCHEN,
     NAME_COUNT
 };
 
@@ -21,7 +22,12 @@ class TextureManager {
 public:
     TextureManager();
     
-    const Texture& operator[](const TextureName name) const;
+    u16 textureCount;
+    std::vector<u8> texIDIndex;
+    
+    const u8& offset(const u8 texID) const;
+    
+    const Texture& operator[](const u8 texID) const;
 private:
     const TextureFiles m_filenames;
     TextureList m_textures;
