@@ -26,12 +26,12 @@ void keyChanged(const SDL_Keycode keycode, KeyboardState& keyState, const bool p
 void checkQuit(const SDL_Event& e, ClientStatus& status) {
     switch (e.type) {
         case SDL_QUIT:
-            status = ClientStatus::IDLE;
+            status = ClientStatus::EXIT;
             break;
         case SDL_KEYDOWN:
             switch (e.key.keysym.sym) {
                 case SDLK_ESCAPE:
-                    status = ClientStatus::IDLE;
+                    status = ClientStatus::EXIT;
                     break;
                 default: break;
             }

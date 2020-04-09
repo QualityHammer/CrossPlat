@@ -10,6 +10,7 @@ namespace Client {
 enum class ClientStatus {
     GOOD,
     IDLE,
+    EXIT,
     FAILED
 };
 
