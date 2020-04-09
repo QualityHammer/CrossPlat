@@ -27,6 +27,7 @@ private:
     MouseState m_mouseState;
     
     void init();
+    friend void manageInputs(ClientEngine& client);
 };
 
 }
