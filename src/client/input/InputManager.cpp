@@ -23,15 +23,30 @@ void keyChanged(const SDL_Keycode keycode, KeyboardState& keyState, const bool p
     }
 }
 
+void checkQuit(const SDL_Event& e, ClientStatus& status) {
+    switch (e.type) {
+        case SDL_QUIT:
+            status = ClientStatus::IDLE;
+            break;
+        case SDL_KEYDOWN:
+            switch (e.key.keysym.sym) {
+                case SDLK_ESCAPE:
+                    status = ClientStatus::IDLE;
+                    break;
+                default: break;
+            }
+            break;
+        default: break;
+    }
+}
+
 void manageInputs(ClientEngine& client) {
     SDL_Event e;
     client.m_mouseState.reset();
     while (SDL_PollEvent(&e) != 0) {
         const auto keycode{e.key.keysym.sym};
+        checkQuit(e, client.m_status);
         switch(e.type) {
-            case SDL_QUIT:
-                client.m_status = ClientStatus::IDLE;
-                break;
             case SDL_KEYDOWN:
                 keyChanged(keycode, client.m_keyState, true);
                 break;
