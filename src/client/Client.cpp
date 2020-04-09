@@ -7,8 +7,8 @@ namespace Client {
 
 ClientEngine::ClientEngine()
 : m_status{ClientStatus::IDLE}, m_window{},
-m_gameState{}, m_keyState{false, false, false, false},
-m_mouseState{0} {
+m_gameState{}, m_keyState{},
+m_mouseState{} {
     init();
 }
 

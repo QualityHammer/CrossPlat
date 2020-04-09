@@ -7,6 +7,7 @@ namespace Client {
 struct MouseState {
     i16 xMov;
     
+    MouseState();
     void reset();
 };
 

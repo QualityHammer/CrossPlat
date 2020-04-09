@@ -7,6 +7,8 @@ struct KeyboardState {
     bool BACK;
     bool LEFT;
     bool RIGHT;
+    
+    KeyboardState();
 };
 
 }
