@@ -1,6 +1,8 @@
 set (render_h
     render/Image.h
-    render/RenderTypes.h
+    render/Sprite.h
+    render/Player.h
+    render/Pixels.h
     render/Render.h
 )
 

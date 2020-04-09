@@ -2,6 +2,7 @@
 
 #include "../../ClientOptions.h"
 #include "../Render.h"
+#include "../Sprite.h"
 #include "SDLErrors.h"
 
 namespace Client {
@@ -69,7 +70,8 @@ WindowStatus Window::init() {
 }
 
 void Window::draw(const GameState& gameState) {
-    render(gameState, m_screenPixels, m_textureManager);
+    std::vector<Sprite> sprites{{4, 4, 0}};
+    render(gameState, m_screenPixels, m_textureManager, sprites);
     
     SDL_UpdateTexture(m_screenTexture,
                         nullptr,
