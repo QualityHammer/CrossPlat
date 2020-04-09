@@ -11,6 +11,14 @@ set (render
     render/Render.cpp
 )
 
+set (input_h
+    input/MouseState.h
+)
+
+set (input
+    input/InputManager.cpp
+)
+
 set (sdl_h
     render/sdl/SDLErrors.h
     render/sdl/Window.h
@@ -39,6 +47,7 @@ add_library(cplat_client
     ${render}
     ${sdl}
     ${texture}
+    ${input}
  
     Client.h
     ClientOptions.h
@@ -46,6 +55,7 @@ add_library(cplat_client
     ${render_h}
     ${sdl_h}
     ${texture_h}
+    ${input_h}
 )
 
 set_compiler_flags(cplat_client)
@@ -68,6 +78,12 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Header Files" FILES ${texture_h})
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Source Files" FILES ${texture})
+#   input/
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
+            PREFIX "Header Files" FILES ${input_h})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
+            PREFIX "Source Files" FILES ${input})
+
 
 target_link_libraries(cplat_client
 	cplat_common

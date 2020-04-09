@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "render/Pixels.h"
+#include "input/MouseState.h"
 #include <common/PlayerControl.h>
 
 namespace Client {
@@ -17,7 +18,9 @@ void ClientEngine::run() {
     bool running{true};
     SDL_Event e;
     Common::PlayerControl pc{0, 0};
+    MouseState mouse{0};
     while (running) {
+        mouse.xMov = 0;
         while (SDL_PollEvent(&e) != 0) {
             const auto keycode{e.key.keysym.sym};
             switch(e.type) {
@@ -47,12 +50,16 @@ void ClientEngine::run() {
                     if (keycode == SDLK_a || keycode == SDLK_d)
                         pc.turn = 0;
                     break;
+                case SDL_MOUSEMOTION:
+                    mouse.xMov = e.motion.xrel;
+                    break;
                 default: break;
             }
         }
         
         // Move to server
-        m_gameState.player.a += (float)pc.turn * 0.05;
+        // m_gameState.player.a += (float)pc.turn * 0.05;
+        m_gameState.player.a += (float)mouse.xMov * 0.01;
         m_gameState.player.x += (float)pc.move *
         std::cos(m_gameState.player.a) * 0.1;
         m_gameState.player.y += (float)pc.move *

@@ -33,6 +33,7 @@ WindowStatus Window::init() {
         SDLError(SDLErrorMsg::INIT);
         return WindowStatus::FAILED;
     }
+    SDL_SetRelativeMouseMode(SDL_TRUE);
     
     m_screenPixels.resize(WINDOW_WIDTH *
                           WINDOW_HEIGHT);
