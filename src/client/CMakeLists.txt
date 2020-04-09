@@ -13,10 +13,12 @@ set (render
 
 set (input_h
     input/MouseState.h
+    input/KeyboardState.h
 )
 
 set (input
     input/InputManager.cpp
+    input/MouseState.cpp
 )
 
 set (sdl_h

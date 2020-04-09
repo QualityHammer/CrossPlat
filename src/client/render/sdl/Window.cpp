@@ -71,7 +71,10 @@ WindowStatus Window::init() {
 }
 
 void Window::draw(const GameState& gameState) {
-    std::vector<Sprite> sprites{{13, 13, 30}};
+    std::vector<Sprite> sprites{
+        {13, 13, 30},
+        {3, 3, 29}
+    };
     render(gameState, m_screenPixels, m_textureManager, sprites);
     
     SDL_UpdateTexture(m_screenTexture,

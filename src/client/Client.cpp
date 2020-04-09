@@ -3,24 +3,22 @@
 #include <cmath>
 
 #include "render/Pixels.h"
-#include "input/MouseState.h"
 #include <common/PlayerControl.h>
 
 namespace Client {
 
 ClientEngine::ClientEngine()
 : m_status{ClientStatus::IDLE}, m_window{},
-m_gameState{} {
+m_gameState{}, m_keyState{false, false, false, false},
+m_mouseState{0} {
     init();
 }
 
 void ClientEngine::run() {
     bool running{true};
     SDL_Event e;
-    Common::PlayerControl pc{0, 0};
-    MouseState mouse{0};
     while (running) {
-        mouse.xMov = 0;
+        m_mouseState.reset();
         while (SDL_PollEvent(&e) != 0) {
             const auto keycode{e.key.keysym.sym};
             switch(e.type) {
@@ -30,40 +28,51 @@ void ClientEngine::run() {
                 case SDL_KEYDOWN:
                     switch (keycode) {
                         case SDLK_w:
-                            pc.move = 1;
+                            m_keyState.FORWARD = true;
                             break;
                         case SDLK_s:
-                            pc.move = -1;
+                            m_keyState.BACK = true;
                             break;
                         case SDLK_a:
-                            pc.turn = -1;
+                            m_keyState.LEFT = true;
                             break;
                         case SDLK_d:
-                            pc.turn = 1;
+                            m_keyState.RIGHT = true;
                             break;
                         default: break;
                     }
                     break;
                 case SDL_KEYUP:
-                    if (keycode == SDLK_w || keycode == SDLK_s)
-                        pc.move = 0;
-                    if (keycode == SDLK_a || keycode == SDLK_d)
-                        pc.turn = 0;
+                    switch (keycode) {
+                        case SDLK_w:
+                            m_keyState.FORWARD = false;
+                            break;
+                        case SDLK_s:
+                            m_keyState.BACK = false;
+                            break;
+                        case SDLK_a:
+                            m_keyState.LEFT = false;
+                            break;
+                        case SDLK_d:
+                            m_keyState.RIGHT = false;
+                            break;
+                        default: break;
+                    }
                     break;
                 case SDL_MOUSEMOTION:
-                    mouse.xMov = e.motion.xrel;
+                    m_mouseState.xMov = e.motion.xrel;
                     break;
                 default: break;
             }
         }
         
         // Move to server
-        // m_gameState.player.a += (float)pc.turn * 0.05;
-        m_gameState.player.a += (float)mouse.xMov * 0.01;
-        m_gameState.player.x += (float)pc.move *
-        std::cos(m_gameState.player.a) * 0.1;
-        m_gameState.player.y += (float)pc.move *
-        std::sin(m_gameState.player.a) * 0.1;
+        m_gameState.player.a += (float)m_mouseState.xMov * 0.01;
+        
+        m_gameState.player.x += (m_keyState.FORWARD + -m_keyState.BACK) *
+        std::cos(m_gameState.player.a) * 0.1f;
+        m_gameState.player.y += (m_keyState.FORWARD + -m_keyState.BACK) *
+        std::sin(m_gameState.player.a) * 0.1f;
         
         draw();
     }
