@@ -5,7 +5,7 @@ namespace Client {
 GameState::GameState() : player{
     3.456,
     13.345,
-    1.323
+    5.023
 }, gMap{
     Common::GameMapData{
         {

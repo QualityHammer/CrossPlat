@@ -35,7 +35,10 @@ bool loadTexture(const std::string filename,
     }
     
     textCnt = w / h;
-    textSize = w / textCnt;
+    // Avoid divide by 0
+    if (textCnt == 0)
+        textSize = w;
+    else textSize = w / textCnt;
     if (w != h * (int)textCnt) {
         Error(ErrorMsg::TEXTURE_COUNT);
         stbi_image_free(pixmap);

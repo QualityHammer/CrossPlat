@@ -58,7 +58,8 @@ void renderColumn(Pixels& pixels, const Common::GameMap& gMap, const TextureMana
 }
 
 void followRay(Pixels& pixels, const float& angle, const Player& player,
-               const Common::GameMap& gMap, const TextureManager& tMan, const u16& rayNum) {
+               const Common::GameMap& gMap, const TextureManager& tMan, const u16& rayNum,
+               std::array<u16, WINDOW_WIDTH>& distanceBuffer) {
     // Follow ray until a wall is hit
     for (float t{0.0}; t < 20.0; t += 0.02) {
         float cx{player.x + t * std::cos(angle)};
@@ -68,6 +69,7 @@ void followRay(Pixels& pixels, const float& angle, const Player& player,
         const int mapIndex{(int)cx + (int)cy * gMap.w};
         // Render column on screen when a wall is hit
         if (gMap[mapIndex] != 0) {
+            distanceBuffer[rayNum] = (u16)t;
             renderColumn(pixels, gMap, tMan, player, cx, cy, angle, t, rayNum, px, py,mapIndex);
             break;
             
@@ -75,7 +77,8 @@ void followRay(Pixels& pixels, const float& angle, const Player& player,
     }
 }
 
-void renderSprite(const Player& player, Pixels& pixels, const Sprite& sprite, const Texture& texture) {
+void renderSprite(const Player& player, Pixels& pixels, const Sprite& sprite, const Texture& texture,
+                  const std::array<u16, WINDOW_WIDTH>& distanceBuffer) {
     // Direction from player to sprite
     float spriteDir{std::atan2(sprite.y - player.y, sprite.x - player.x)};
     // Remove unneeded radians
@@ -93,10 +96,15 @@ void renderSprite(const Player& player, Pixels& pixels, const Sprite& sprite, co
     
     // Draw sprite to screen buffer
     for (u16 i{0}; i < spriteScreenSize; i++) {
-        if (xOff + i < 0 || xOff + i >= WINDOW_WIDTH) continue;
+        if (xOff + (int)i < 0 || xOff + i >= WINDOW_WIDTH) continue; // Sprite offscreen
+        if (distanceBuffer[xOff + i] < spriteDist) continue; // Sprite behind wall
         for (u16 j{0}; j < spriteScreenSize; j++) {
-            if (yOff + j < 0 || yOff + j >= WINDOW_HEIGHT) continue;
-            pixels[xOff + i + ((yOff + j) * WINDOW_WIDTH)] = 0xff000000;
+            if (yOff + (int)j < 0 || yOff + j >= WINDOW_HEIGHT) continue; // Sprite offscreen
+            const Color& color{texture.getPixel(i * texture.size / spriteScreenSize,
+                                                j * texture.size / spriteScreenSize,
+                                                sprite.texID)};
+            if (color >> 24 > 128)
+                pixels[xOff + i + ((yOff + j) * WINDOW_WIDTH)] = color;
         }
     }
 }
@@ -109,16 +117,18 @@ void render(const GameState& gameState, Pixels& pixels, const TextureManager& tM
     // Fill top and bottom background colors
     std::fill(pixels.begin(), pixels.end() - pixels.size() / 2, 0xf05aaac8);
     std::fill(pixels.begin() + pixels.size() / 2, pixels.end(), 0xf0336699);
+    
+    std::array<u16, WINDOW_WIDTH> distanceBuffer{};
     // Draw walls
     for (u16 i{0}; i < WINDOW_WIDTH; i++) {
         float angle{player.a - FOV / 2 + FOV * i / (float)WINDOW_WIDTH
         };
-        followRay(pixels, angle, player, gMap, tMan, i);
+        followRay(pixels, angle, player, gMap, tMan, i, distanceBuffer);
     }
     
     // Draw sprites
     for (const auto& sprite : sprites) {
-        renderSprite(player, pixels, sprite, tMan[sprite.texID]);
+        renderSprite(player, pixels, sprite, tMan[sprite.texID], distanceBuffer);
     }
 }
 
