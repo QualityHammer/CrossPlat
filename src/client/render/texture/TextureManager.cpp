@@ -8,7 +8,8 @@ TextureManager::TextureManager() : textureCount{0},
 m_filenames{{
     "walls_sunroom.png",
     "walls_kitchen.png",
-    "mitt.png"
+    "mitt.png",
+    "peach.png"
 }}, m_textures{} {
     assert(m_filenames.size() ==
            static_cast<size_t>(TextureName::NAME_COUNT));

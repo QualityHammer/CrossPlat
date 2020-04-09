@@ -12,6 +12,7 @@ enum class TextureName : size_t {
     SUNROOM,
     KITCHEN,
     MITT,
+    PEACH,
     NAME_COUNT
 };
 
