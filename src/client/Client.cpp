@@ -1,7 +1,7 @@
 #include "Client.h"
 
 #include "render/Pixels.h"
-#include <common/PlayerControl.h>
+#include <common/constructs/PlayerControl.h>
 
 namespace Client {
 

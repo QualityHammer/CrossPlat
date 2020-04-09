@@ -2,7 +2,7 @@
 
 #include "render/Player.h"
 #include "render/Pixels.h"
-#include <common/GameMap.h>
+#include <common/constructs/GameMap.h>
 
 namespace Client {
 

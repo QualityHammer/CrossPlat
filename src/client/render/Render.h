@@ -6,8 +6,8 @@
 #include "texture/TextureManager.h"
 #include "Pixels.h"
 #include "Sprite.h"
-#include <common/Types.h>
-#include <common/GameMap.h>
+#include <common/constructs/Types.h>
+#include <common/constructs/GameMap.h>
 
 namespace Client {
 

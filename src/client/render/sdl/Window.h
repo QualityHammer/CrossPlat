@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 
-#include <common/Types.h>
+#include <common/constructs/Types.h>
 #include "../../GameState.h"
 #include "../texture/TextureManager.h"
 
