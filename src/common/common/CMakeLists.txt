@@ -20,10 +20,12 @@ set (network
 )
 
 add_library(cplat_common
+    Debug.cpp
 	ErrorHandler.cpp
     ${constructs}
     ${network}
  
+    Debug.hpp
     ErrorHandler.hpp
     ${constructs_hpp}
     ${network_hpp}
