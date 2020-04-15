@@ -11,10 +11,12 @@ set (constructs
 
 set (network_hpp
     network/Net.hpp
+    network/NetworkErrors.hpp
 )
 
 set (network
     network/Net.cpp
+    network/NetworkErrors.cpp
 )
 
 add_library(cplat_common
