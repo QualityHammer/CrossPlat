@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+namespace Net {
+
 void netInit() {
 #ifdef WIN32
   if (enet_initialize() != 0) {
@@ -17,4 +19,6 @@ void win32Close() {
     atexit(enet_deinitialize);
 #endif
     return;
+}
+
 }

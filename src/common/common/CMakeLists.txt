@@ -12,11 +12,13 @@ set (constructs
 set (network_hpp
     network/Net.hpp
     network/NetworkErrors.hpp
+    network/Packet.hpp
 )
 
 set (network
     network/Net.cpp
     network/NetworkErrors.cpp
+    network/Packet.cpp
 )
 
 add_library(cplat_common
