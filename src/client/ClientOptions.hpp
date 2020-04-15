@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-#include <common/constructs/Types.h>
+#include <common/constructs/Types.hpp>
 
 namespace Client {
 

@@ -1,4 +1,4 @@
-#include "TextureErrors.h"
+#include "TextureErrors.hpp"
 
 #include <iostream>
 

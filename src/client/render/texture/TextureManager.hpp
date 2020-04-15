@@ -4,7 +4,7 @@
 #include <array>
 #include <vector>
 
-#include "Texture.h"
+#include "Texture.hpp"
 
 namespace Client {
 

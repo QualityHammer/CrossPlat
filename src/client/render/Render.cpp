@@ -1,10 +1,10 @@
-#include "Render.h"
+#include "Render.hpp"
 
 #include <cmath>
 #include <cassert>
 #include <algorithm>
 
-#include "../ClientOptions.h"
+#include "../ClientOptions.hpp"
 
 namespace Client {
 

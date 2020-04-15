@@ -1,9 +1,9 @@
-#include "Window.h"
+#include "Window.hpp"
 
-#include "../../ClientOptions.h"
-#include "../Render.h"
-#include "../Sprite.h"
-#include "SDLErrors.h"
+#include "../../ClientOptions.hpp"
+#include "../Render.hpp"
+#include "../Sprite.hpp"
+#include "SDLErrors.hpp"
 
 namespace Client {
 

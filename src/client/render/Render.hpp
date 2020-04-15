@@ -2,12 +2,12 @@
 
 #include <vector>
 
-#include "../GameState.h"
-#include "texture/TextureManager.h"
-#include "Pixels.h"
-#include "Sprite.h"
-#include <common/constructs/Types.h>
-#include <common/constructs/GameMap.h>
+#include "../GameState.hpp"
+#include "texture/TextureManager.hpp"
+#include "Pixels.hpp"
+#include "Sprite.hpp"
+#include <common/constructs/Types.hpp>
+#include <common/constructs/GameMap.hpp>
 
 namespace Client {
 

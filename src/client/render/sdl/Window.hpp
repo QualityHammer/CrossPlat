@@ -2,9 +2,9 @@
 
 #include <SDL.h>
 
-#include <common/constructs/Types.h>
-#include "../../GameState.h"
-#include "../texture/TextureManager.h"
+#include <common/constructs/Types.hpp>
+#include "../../GameState.hpp"
+#include "../texture/TextureManager.hpp"
 
 namespace Client {
 

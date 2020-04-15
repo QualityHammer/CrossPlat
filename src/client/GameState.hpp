@@ -1,8 +1,8 @@
 #pragma once
 
-#include "render/Player.h"
-#include "render/Pixels.h"
-#include <common/constructs/GameMap.h>
+#include "render/Player.hpp"
+#include "render/Pixels.hpp"
+#include <common/constructs/GameMap.hpp>
 
 namespace Client {
 

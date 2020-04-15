@@ -1,9 +1,9 @@
 #pragma once
 
-#include "render/sdl/Window.h"
-#include "input/MouseState.h"
-#include "input/KeyboardState.h"
-#include "GameState.h"
+#include "render/sdl/Window.hpp"
+#include "input/MouseState.hpp"
+#include "input/KeyboardState.hpp"
+#include "GameState.hpp"
 
 namespace Client {
 

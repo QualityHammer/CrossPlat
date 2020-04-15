@@ -1,10 +1,10 @@
-#include "Image.h"
+#include "Image.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <utils/stb_image.h>
 
-#include "../ClientOptions.h"
-#include <common/ErrorHandler.h>
+#include "../ClientOptions.hpp"
+#include <common/ErrorHandler.hpp>
 
 namespace Client {
 

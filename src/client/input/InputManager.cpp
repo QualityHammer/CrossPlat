@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include <cmath>
 
-#include "../Client.h"
+#include "../Client.hpp"
 
 namespace Client {
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/constructs/Types.h>
+#include <common/constructs/Types.hpp>
 
 namespace Client {
 

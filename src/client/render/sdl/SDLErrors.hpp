@@ -3,7 +3,7 @@
 #include <array>
 #include <string>
 
-#include <common/constructs/Types.h>
+#include <common/constructs/Types.hpp>
 
 enum class SDLErrorMsg : u8 {
 	INIT,

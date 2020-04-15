@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "../Pixels.h"
+#include "../Pixels.hpp"
 
 namespace Client {
 

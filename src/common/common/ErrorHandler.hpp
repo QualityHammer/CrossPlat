@@ -3,7 +3,7 @@
 #include <array>
 #include <string>
 
-#include "constructs/Types.h"
+#include "constructs/Types.hpp"
 
 enum class ErrorMsg : u32 {
     TEXTURE_LOAD,

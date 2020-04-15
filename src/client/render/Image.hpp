@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "Pixels.h"
-#include <common/constructs/Types.h>
+#include "Pixels.hpp"
+#include <common/constructs/Types.hpp>
 
 namespace Client {
 

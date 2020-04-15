@@ -1,8 +1,8 @@
-set (constructs_h
-    constructs/Types.h
-    constructs/PlayerControl.h
-    constructs/GameMap.h
-    constructs/Entity.h
+set (constructs_hpp
+    constructs/Types.hpp
+    constructs/PlayerControl.hpp
+    constructs/GameMap.hpp
+    constructs/Entity.hpp
 )
 
 set (constructs
@@ -13,8 +13,8 @@ add_library(cplat_common
 	ErrorHandler.cpp
     ${constructs}
  
-    ErrorHandler.h
-    ${constructs_h}
+    ErrorHandler.hpp
+    ${constructs_hpp}
 )
 
 set_compiler_flags(cplat_common)
@@ -24,7 +24,7 @@ set_compiler_flags(cplat_common)
 #--------------
 #   constructs/
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
-            PREFIX "Header Files" FILES ${constructs_h})
+            PREFIX "Header Files" FILES ${constructs_hpp})
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Source Files" FILES ${constructs})
 
