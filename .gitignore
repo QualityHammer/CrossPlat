@@ -2,6 +2,9 @@
 /build/*
 /out/*
 
+# Ignore all assets that aren't added
+/assets/*
+
 # IDE
 .vs/*
 /CMakeSettings.json
