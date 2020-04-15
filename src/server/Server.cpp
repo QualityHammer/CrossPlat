@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include <common/Debug.hpp>
 #include <common/network/NetworkErrors.hpp>
 
 namespace Server {
@@ -14,8 +15,12 @@ ServerEngine::ServerEngine() : maxConnections{5}, m_server{nullptr} {
         ServerError(ServerErrorType::INIT_FAILED);
         exit(1);
     }
-    std::cout << "Server running on localhost:" << m_address.port << std::endl;
+    Debug::serverRunning("localhost", m_address.port);
     m_clients.reserve(maxConnections);
+}
+
+ServerEngine::~ServerEngine() {
+    enet_host_destroy(m_server);
 }
 
 }
