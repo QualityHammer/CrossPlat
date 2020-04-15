@@ -87,10 +87,20 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Source Files" FILES ${input})
 
+target_include_directories(cplat_client
+    PRIVATE
+    "${CMAKE_SOURCE_DIR}/dependencies"
+    "${CMAKE_SOURCE_DIR}/src/server"
+    "${CMAKE_SOURCE_DIR}/src/common"
+)
+
+target_include_directories(cplat_client
+    PUBLIC
+    ${SDL2_INCLUDE_DIR}
+)
 
 target_link_libraries(cplat_client
 	cplat_common
 	cplat_server
-    enet
 	${SDL2_LIBRARY}
 )
