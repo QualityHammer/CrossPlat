@@ -44,7 +44,7 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Source Files" FILES ${network})
 
 target_include_directories(cplat_common
-    PRIVATE
+    PUBLIC
     "${CMAKE_SOURCE_DIR}/dependencies/enet/include"
 )
 
