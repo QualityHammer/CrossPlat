@@ -48,7 +48,7 @@ public:
     Packet& operator<<(ENetPacket* enetPacket);
 };
 
-// Sends a packet to all clients connected to the host
+// Sends a packet to all peers connected to the host
 void broadcastPacket(Packet& packet, ENetHost* host);
 // Sends a packet to a peer.
 void sendPacket(Packet& packet, ENetPeer* peer);

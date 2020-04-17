@@ -2,9 +2,11 @@
 
 namespace Client {
 
+// Represents a player in the game.
 struct Player {
-    float x;
-    float y;
+    // World position
+    float x, y;
+    // View angle
     float a;
 };
 

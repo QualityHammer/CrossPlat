@@ -4,6 +4,7 @@
 
 namespace Client {
 
+// Current state of a client's mouse
 struct MouseState {
     i16 xMov;
     

@@ -6,11 +6,16 @@
 
 namespace Client {
 
+// Contains all data needed to render everything
+// to the screen.
 class GameState {
 public:
+    // Initialize
     GameState();
     
+    // Player data
     Player player;
+    // Game map data
     Common::GameMap gMap;
 };
 
