@@ -4,6 +4,9 @@
 
 #include "Net.hpp"
 #include "../constructs/Entity.hpp"
+#include "../constructs/GameMap.hpp"
+#include "../constructs/Player.hpp"
+#include "../constructs/PlayerControl.hpp"
 #include "../constructs/Types.hpp"
 
 namespace Net {
@@ -20,6 +23,7 @@ enum class PacketType : u8 {
     NONE,
     GAME_MAP,
     ENTITY,
+    PLAYER,
     PLAYER_CONTROL
 };
 
@@ -50,6 +54,12 @@ public:
     
     Packet& operator<<(const Common::Entity& entity);
     Packet& operator>>(Common::Entity& entity);
+    Packet& operator<<(const Common::GameMap& gameMap);
+    Packet& operator>>(Common::GameMap& gameMap);
+    Packet& operator<<(const Common::Player& player);
+    Packet& operator>>(Common::Player& player);
+    Packet& operator<<(const Common::PlayerControl& playerControl);
+    Packet& operator>>(Common::PlayerControl& playerControl);
 };
 
 // Sends a packet to all peers connected to the host

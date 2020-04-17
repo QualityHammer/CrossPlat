@@ -39,6 +39,48 @@ Packet& Packet::operator<<(const Common::Entity& entity) {
     return *this;
 }
 
+Packet& Packet::operator<<(const Common::GameMap& gameMap) {
+    assert(type == PacketType::GAME_MAP || type == PacketType::NONE);
+    if (type == PacketType::NONE) {
+        type = PacketType::GAME_MAP;
+    }
+    
+    const std::vector<u8> serialized{serialize(gameMap)};
+    data.insert(data.end(), serialized.begin(), serialized.end());
+    
+    size += gameMap.bytes();
+    
+    return *this;
+}
+
+Packet& Packet::operator<<(const Common::Player& player) {
+    assert(type == PacketType::PLAYER || type == PacketType::NONE);
+    if (type == PacketType::NONE) {
+        type = PacketType::PLAYER;
+    }
+    
+    const std::vector<u8> serialized{serialize(player)};
+    data.insert(data.end(), serialized.begin(), serialized.end());
+    
+    size += Common::Player::bytes();
+    
+    return *this;
+}
+
+Packet& Packet::operator<<(const Common::PlayerControl& playerControl) {
+    assert(type == PacketType::PLAYER_CONTROL || type == PacketType::NONE);
+    if (type == PacketType::NONE) {
+        type = PacketType::PLAYER_CONTROL;
+    }
+    
+    const std::vector<u8> serialized{serialize(playerControl)};
+    data.insert(data.end(), serialized.begin(), serialized.end());
+    
+    size += Common::PlayerControl::bytes();
+    
+    return *this;
+}
+
 Packet& Packet::operator>>(Common::Entity &entity) {
     assert(type == PacketType::ENTITY);
     assert(size > 0);
@@ -48,6 +90,45 @@ Packet& Packet::operator>>(Common::Entity &entity) {
     
     data.erase(data.begin(), data.begin() + Common::Entity::bytes());
     size -= Common::Entity::bytes();
+    
+    return *this;
+}
+
+Packet& Packet::operator>>(Common::GameMap& gameMap) {
+    assert(type == PacketType::GAME_MAP);
+    assert(size > 0);
+    
+    const std::vector<u8> tmp{data.begin(), data.end()};
+    gameMap = deserializeGameMap(tmp);
+    
+    data.erase(data.begin(), data.begin() + gameMap.bytes());
+    size -= gameMap.bytes();
+    
+    return *this;
+}
+
+Packet& Packet::operator>>(Common::Player& player) {
+    assert(type == PacketType::PLAYER);
+    assert(size > 0);
+    
+    const std::vector<u8> tmp{data.begin(), data.begin() + Common::Player::bytes()};
+    player = deserializePlayer(tmp);
+    
+    data.erase(data.begin(), data.begin() + Common::Player::bytes());
+    size -= Common::Player::bytes();
+    
+    return *this;
+}
+
+Packet& Packet::operator>>(Common::PlayerControl& playerControl) {
+    assert(type == PacketType::PLAYER_CONTROL);
+    assert(size > 0);
+    
+    const std::vector<u8> tmp{data.begin(), data.begin() + Common::PlayerControl::bytes()};
+    playerControl = deserializePlayerControl(tmp);
+    
+    data.erase(data.begin(), data.begin() + Common::PlayerControl::bytes());
+    size -= Common::PlayerControl::bytes();
     
     return *this;
 }

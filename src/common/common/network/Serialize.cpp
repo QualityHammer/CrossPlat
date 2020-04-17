@@ -29,3 +29,32 @@ const std::vector<u8> serialize(const Common::GameMap& gMap) {
     
     return data;
 }
+
+const std::vector<u8> serialize(const Common::Player& player) {
+    std::vector<u8> data;
+    data.resize(Common::Player::bytes());
+    
+    for (u8 i{0}; i < sizeof(float); ++i) {
+        data[i] = (*reinterpret_cast<const u32*>(&player.x) & (0xff << (i * 8))) >> (i * 8);
+    }
+    for (u8 i{0}; i < sizeof(float); ++i) {
+        data[i] = (*reinterpret_cast<const u32*>(&player.y) & (0xff << (i * 8))) >> (i * 8);
+    }
+    for (u8 i{0}; i < sizeof(float); ++i) {
+        data[i] = (*reinterpret_cast<const u32*>(&player.a) & (0xff << (i * 8))) >> (i * 8);
+    }
+    data[Common::Player::bytes() - 1] = player.EID;
+    
+    return data;
+}
+
+const std::vector<u8> serialize(const Common::PlayerControl& playerControl) {
+    std::vector<u8> data;
+    data.resize(Common::PlayerControl::bytes());
+    
+    data[0] = playerControl.moveX;
+    data[1] = playerControl.moveY;
+    data[2] = playerControl.turn;
+    
+    return data;
+}
