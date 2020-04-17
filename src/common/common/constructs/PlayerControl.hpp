@@ -13,6 +13,8 @@ struct PlayerControl {
     i8 moveY;
     // Amount to turn
     i8 turn;
+    
+    static u8 bytes() { return sizeof(i8) * 3; }
 };
 
 }

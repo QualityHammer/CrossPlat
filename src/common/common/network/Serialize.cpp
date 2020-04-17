@@ -2,7 +2,7 @@
 
 const std::vector<u8> serialize(const Common::Entity& entity) {
     std::vector<u8> data{};
-    data.resize(entity.SIZE);
+    data.resize(Common::Entity::bytes());
     
     for (u8 i{0}; i < sizeof(float); ++i) {
         data[i] = (*reinterpret_cast<const u32*>(&entity.x) & (0xff << (i * 8))) >> (i * 8);

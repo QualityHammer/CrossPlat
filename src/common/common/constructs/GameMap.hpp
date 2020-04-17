@@ -19,6 +19,8 @@ struct GameMap {
     std::vector<u8> data;
     
     const u8& operator[](const u16 index) const;
+    
+    u8 bytes() { return sizeof(u16) * 3 + sizeof(u8) * data.size(); }
 };
 
 }

@@ -34,7 +34,7 @@ Packet& Packet::operator<<(const Common::Entity& entity) {
     const std::vector<u8> serialized{serialize(entity)};
     data.insert(data.end(), serialized.begin(), serialized.end());
     
-    size += entity.SIZE;
+    size += Common::Entity::bytes();
     
     return *this;
 }
@@ -43,11 +43,11 @@ Packet& Packet::operator>>(Common::Entity &entity) {
     assert(type == PacketType::ENTITY);
     assert(size > 0);
     
-    const std::vector<u8> tmp{data.begin(), data.begin() + entity.SIZE};
+    const std::vector<u8> tmp{data.begin(), data.begin() + Common::Entity::bytes()};
     entity = deserializeEntity(tmp);
     
-    data.erase(data.begin(), data.begin() + entity.SIZE);
-    size -= entity.SIZE;
+    data.erase(data.begin(), data.begin() + Common::Entity::bytes());
+    size -= Common::Entity::bytes();
     
     return *this;
 }

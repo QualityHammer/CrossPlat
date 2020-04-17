@@ -17,7 +17,7 @@ struct Entity {
     // Unique ID for each entity in a game
     u8 EID;
     
-    static constexpr u8 SIZE{sizeof(float) * 2 + sizeof(u8) * 3};
+    static u8 bytes() { return sizeof(float) * 2 + sizeof(u8) * 3; }
 };
 
 using Entities = std::vector<Entity>;
