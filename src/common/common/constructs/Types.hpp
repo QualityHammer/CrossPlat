@@ -2,10 +2,10 @@
 
 #include <cstdint>
 
-using i8 = int_fast8_t;
-using i16 = int_fast16_t;
-using i32 = int_fast32_t;
+using i8 = int_least8_t;
+using i16 = int_least16_t;
+using i32 = int_least32_t;
 
-using u8 = uint_fast8_t;
-using u16 = uint_fast16_t;
-using u32 = uint_fast32_t;
+using u8 = uint_least8_t;
+using u16 = uint_least16_t;
+using u32 = uint_least32_t;
