@@ -3,6 +3,7 @@ set (constructs_hpp
     constructs/PlayerControl.hpp
     constructs/GameMap.hpp
     constructs/Entity.hpp
+    constructs/Player.hpp
 )
 
 set (constructs

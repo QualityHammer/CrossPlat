@@ -1,7 +1,6 @@
 set (render_hpp
     render/Image.hpp
     render/Sprite.hpp
-    render/Player.hpp
     render/Pixels.hpp
     render/Render.hpp
 )

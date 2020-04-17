@@ -25,7 +25,7 @@ Pixels textureColumn(const Texture& texture, const u8 texID, const u16 coordX,
 }
 
 void renderColumn(Pixels& pixels, const Common::GameMap& gMap, const TextureManager& tMan,
-                  const Player& player, const float& cx, const float& cy, const float& angle,
+                  const Common::Player& player, const float& cx, const float& cy, const float& angle,
                   const float& dist, const u16 rayNum, int& px, int& py, const int& mapIndex) {
     // The id for the texture to use for this column
     u8 texID{static_cast<u8>(gMap[mapIndex] - 1)};
@@ -57,7 +57,7 @@ void renderColumn(Pixels& pixels, const Common::GameMap& gMap, const TextureMana
     }
 }
 
-void followRay(Pixels& pixels, const float& angle, const Player& player,
+void followRay(Pixels& pixels, const float& angle, const Common::Player& player,
                const Common::GameMap& gMap, const TextureManager& tMan, const u16& rayNum,
                std::array<u16, WINDOW_WIDTH>& distanceBuffer) {
     // Follow ray until a wall is hit
@@ -77,7 +77,7 @@ void followRay(Pixels& pixels, const float& angle, const Player& player,
     }
 }
 
-void renderSprite(const Player& player, Pixels& pixels, const Sprite& sprite, const Texture& texture,
+void renderSprite(const Common::Player& player, Pixels& pixels, const Sprite& sprite, const Texture& texture,
                   const std::array<u16, WINDOW_WIDTH>& distanceBuffer) {
     // Direction from player to sprite
     float spriteDir{std::atan2(sprite.y - player.y, sprite.x - player.x)};
@@ -111,7 +111,7 @@ void renderSprite(const Player& player, Pixels& pixels, const Sprite& sprite, co
 
 void render(const GameState& gameState, Pixels& pixels, const TextureManager& tMan,
             const std::vector<Sprite>& sprites) {
-    const Player& player{gameState.player};
+    const Common::Player& player{gameState.player};
     const Common::GameMap& gMap{gameState.gMap};
     
     // Fill top and bottom background colors

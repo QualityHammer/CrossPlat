@@ -1,8 +1,8 @@
 #pragma once
 
-#include "render/Player.hpp"
 #include "render/Pixels.hpp"
 #include <common/constructs/GameMap.hpp>
+#include <common/constructs/Player.hpp>
 
 namespace Client {
 
@@ -14,7 +14,7 @@ public:
     GameState();
     
     // Player data
-    Player player;
+    Common::Player player;
     // Game map data
     Common::GameMap gMap;
 };

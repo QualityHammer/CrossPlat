@@ -1,6 +1,8 @@
 #pragma once
 
-namespace Client {
+#include "Types.hpp"
+
+namespace Common {
 
 // Represents a player in the game.
 struct Player {
@@ -8,6 +10,10 @@ struct Player {
     float x, y;
     // View angle
     float a;
+    // Entity ID
+    u8 EID;
+    
+    static u8 bytes() { return sizeof(float) * 3 + sizeof(u8); }
 };
 
 }
