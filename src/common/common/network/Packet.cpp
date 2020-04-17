@@ -1,5 +1,8 @@
 #include "Packet.hpp"
 
+#include "Serialize.hpp"
+#include "Deserialize.hpp"
+
 namespace Net {
 
 Packet::Packet() : status{PacketStatus::IDLE}, type{PacketType::NONE}, size{0}, data{} {}
@@ -19,6 +22,33 @@ Packet& Packet::operator<<(ENetPacket* enetPacket) {
         data.push_back(*(recv + i));
     enet_packet_destroy(enetPacket);
     status = PacketStatus::RECIEVED;
+    return *this;
+}
+
+Packet& Packet::operator<<(const Common::Entity& entity) {
+    assert(type == PacketType::ENTITY || type == PacketType::NONE);
+    if (type == PacketType::NONE) {
+        type = PacketType::ENTITY;
+    }
+    
+    const std::vector<u8> serialized{serialize(entity)};
+    data.insert(data.end(), serialized.begin(), serialized.end());
+    
+    size += entity.SIZE;
+    
+    return *this;
+}
+
+Packet& Packet::operator>>(Common::Entity &entity) {
+    assert(type == PacketType::ENTITY);
+    assert(size > 0);
+    
+    const std::vector<u8> tmp{data.begin(), data.begin() + entity.SIZE};
+    entity = deserializeEntity(tmp);
+    
+    data.erase(data.begin(), data.begin() + entity.SIZE);
+    size -= entity.SIZE;
+    
     return *this;
 }
 

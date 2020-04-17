@@ -32,4 +32,17 @@ void serverRunning(const std::string& address, const u16& port) {
     std::cout << "Server running on " << address << ":" << port << std::endl;
 }
 
+void showPacket(const Net::Packet& packet) {
+    std::cout << "Packet(" << std::endl << "    Type: " << (int)packet.type << std::endl
+    << "    Size: " << packet.size << std::endl << "    Data:" << std::endl << "        ";
+    for (u16 i{0}; i < packet.size; ++i) {
+        std::cout << (int)packet.data[i];
+        if (i != packet.size - 1)
+            std::cout << ", ";
+        if (i != 0 && i % 8 == 0)
+            std::cout << std::endl << "        ";
+    }
+    std::cout << std::endl << ")" << std::endl;
+}
+
 }

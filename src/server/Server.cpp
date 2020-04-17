@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include <common/constructs/Entity.hpp>
 #include <common/Debug.hpp>
 #include <common/network/NetworkErrors.hpp>
 
@@ -30,7 +31,11 @@ void ServerEngine::broadcastClientPacket(Net::Packet& packet) const {
 
 void ServerEngine::newClientConnection(ENetEvent &event) {
     Debug::clientConnected();
-    m_clients.push_back(event.peer->address.host);
+    m_clients.push_back(event.peer);
+    Net::Packet packet{};
+    Common::Entity entity{13.53, 2.456, 1, 29, 0};
+    packet << entity;
+    sendClientPacket(packet, event.peer);
 }
 
 void ServerEngine::recievePacket(ENetEvent &event) {
@@ -39,7 +44,7 @@ void ServerEngine::recievePacket(ENetEvent &event) {
 
 void ServerEngine::removeClientConnection(ENetEvent &event) {
     Debug::clientDisconnected();
-    m_clients.erase(std::find(m_clients.begin(), m_clients.end(), event.peer->address.host));
+    m_clients.erase(std::find(m_clients.begin(), m_clients.end(), event.peer));
 }
 
 void ServerEngine::sendClientPacket(Net::Packet& packet, ENetPeer* peer) const {
@@ -65,6 +70,10 @@ void ServerEngine::run() {
                 default: break;
             }
         }
+        Net::Packet packet{};
+        Common::Entity entity{13.53, 2.456, 1, 29, 0};
+        packet << entity;
+        broadcastClientPacket(packet);
     }
 }
 

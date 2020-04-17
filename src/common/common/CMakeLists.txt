@@ -13,12 +13,16 @@ set (network_hpp
     network/Net.hpp
     network/NetworkErrors.hpp
     network/Packet.hpp
+    network/Serialize.hpp
+    network/Deserialize.hpp
 )
 
 set (network
     network/Net.cpp
     network/NetworkErrors.cpp
     network/Packet.cpp
+    network/Serialize.cpp
+    network/Deserialize.cpp
 )
 
 add_library(cplat_common

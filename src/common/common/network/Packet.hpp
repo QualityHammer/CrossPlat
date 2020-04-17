@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Net.hpp"
+#include "../constructs/Entity.hpp"
 #include "../constructs/Types.hpp"
 
 namespace Net {
@@ -46,6 +47,9 @@ public:
     
     // Initializes data in this packet from the ENet packet.
     Packet& operator<<(ENetPacket* enetPacket);
+    
+    Packet& operator<<(const Common::Entity& entity);
+    Packet& operator>>(Common::Entity& entity);
 };
 
 // Sends a packet to all peers connected to the host

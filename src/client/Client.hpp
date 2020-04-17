@@ -3,6 +3,7 @@
 #include "render/sdl/Window.hpp"
 #include "input/MouseState.hpp"
 #include "input/KeyboardState.hpp"
+#include "network/ClientNet.hpp"
 #include "GameState.hpp"
 
 namespace Client {
@@ -36,6 +37,8 @@ private:
     KeyboardState m_keyState;
     // Current mouse state
     MouseState m_mouseState;
+    // Connection to game server
+    ClientNet m_network;
     
     void init();
     // A function used to check for inputs

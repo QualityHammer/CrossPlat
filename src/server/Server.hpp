@@ -40,7 +40,7 @@ private:
     // ENet server address
     ENetAddress m_address;
     // All of the currently connected client's address numbers.
-    std::vector<u32> m_clients;
+    std::vector<ENetPeer*> m_clients;
     
     // Sends a packet to all clients currently connected.
     void broadcastClientPacket(Net::Packet& packet) const;

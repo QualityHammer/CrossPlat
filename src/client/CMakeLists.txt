@@ -44,6 +44,14 @@ set (texture
     render/texture/TextureErrors.cpp
 )
 
+set (network_hpp
+    network/ClientNet.hpp
+)
+
+set (network
+    network/ClientNet.cpp
+)
+
 add_library(cplat_client
 	Client.cpp
     GameState.cpp
@@ -51,6 +59,7 @@ add_library(cplat_client
     ${sdl}
     ${texture}
     ${input}
+    ${network}
  
     Client.hpp
     ClientOptions.hpp
@@ -59,6 +68,7 @@ add_library(cplat_client
     ${sdl_hpp}
     ${texture_hpp}
     ${input_hpp}
+    ${network_hpp}
 )
 
 set_compiler_flags(cplat_client)
@@ -86,6 +96,11 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Header Files" FILES ${input_hpp})
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Source Files" FILES ${input})
+#   network/
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
+            PREFIX "Header Files" FILES ${network_hpp})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
+            PREFIX "Source Files" FILES ${network})
 
 target_include_directories(cplat_client
     PRIVATE
