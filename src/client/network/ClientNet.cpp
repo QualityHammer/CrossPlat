@@ -6,7 +6,7 @@
 
 namespace Client {
 
-ClientNet::ClientNet(GameState& gameState) : m_client{nullptr}, m_server{nullptr}, m_gameState{gameState} {
+ClientNet::ClientNet(GameState& gameState) : m_client{nullptr}, m_server{nullptr}, m_gameState{gameState}, EID{0} {
     m_client = enet_host_create(&m_address, 1, 2, 0, 0);
     if (m_client == nullptr) {
         ClientError(ClientErrorType::INIT_FAILED);
@@ -65,10 +65,38 @@ void ClientNet::getUpdates() {
     }
 }
 
+void ClientNet::sendPlayerControl(Common::PlayerControl& pc) {
+    Net::Packet packet{};
+    packet << pc;
+    Net::sendPacket(packet, m_server);
+    enet_host_flush(m_client);
+}
+
 void ClientNet::recievePacket(ENetEvent &event) {
     Net::Packet packet{};
     packet << event.packet;
     Debug::showPacket(packet);
+    Common::Entity entity;
+    switch (packet.type) {
+        case Net::PacketType::GAME_MAP:
+            packet >> m_gameState.gMap;
+            break;
+        case Net::PacketType::ENTITY:
+            while (packet.size > 0) {
+                packet >> entity;
+                if (entity.type == 1 && EID == 0)
+                    EID = entity.EID;
+                if (entity.type == 1 && entity.EID == EID) {
+                    m_gameState.player.x = entity.x;
+                    m_gameState.player.y = entity.y;
+                } else {
+                    m_gameState.entities[entity.EID] = entity;
+                }
+            }
+        default:
+            break;
+    }
 }
+
 
 }

@@ -1,5 +1,7 @@
 #include "Client.hpp"
 
+#include <cmath>
+
 #include "render/Pixels.hpp"
 #include <common/constructs/PlayerControl.hpp>
 
@@ -18,6 +20,15 @@ void ClientEngine::run() {
     while (m_status == ClientStatus::GOOD) {
         m_network.getUpdates();
         manageInputs(*this);
+        if (m_keyState.FORWARD || m_keyState.BACK) {
+            Common::PlayerControl pc{0, 0, 0};
+            pc.moveX += (m_keyState.FORWARD + -m_keyState.BACK) *
+                std::cos(m_gameState.player.a) * 100;
+            pc.moveY += (m_keyState.FORWARD + -m_keyState.BACK) *
+                std::sin(m_gameState.player.a) * 100;
+            m_network.sendPlayerControl(pc);
+        }
+        
         draw();
     }
     m_network.disconnect();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
 #include <common/network/Net.hpp>
 #include <common/network/Packet.hpp>
@@ -40,7 +41,11 @@ private:
     // ENet server address
     ENetAddress m_address;
     // All of the currently connected client's address numbers.
-    std::vector<ENetPeer*> m_clients;
+    std::map<ENetPeer*, u8> m_clients;
+    std::vector<bool> m_availID;
+    std::map<u8, Common::Entity> m_entities;
+    
+    const Common::GameMap m_gameMap;
     
     // Sends a packet to all clients currently connected.
     void broadcastClientPacket(Net::Packet& packet) const;

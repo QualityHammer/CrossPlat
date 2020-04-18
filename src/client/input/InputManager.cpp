@@ -66,10 +66,10 @@ void manageInputs(ClientEngine& client) {
     client.m_gameState.player.a += (float)client.m_mouseState.xMov * 0.01;
     
     // Move position
-    client.m_gameState.player.x += (client.m_keyState.FORWARD + -client.m_keyState.BACK) *
-    std::cos(client.m_gameState.player.a) * 0.1f;
-    client.m_gameState.player.y += (client.m_keyState.FORWARD + -client.m_keyState.BACK) *
-    std::sin(client.m_gameState.player.a) * 0.1f;
+//    client.m_gameState.player.x += (client.m_keyState.FORWARD + -client.m_keyState.BACK) *
+//    std::cos(client.m_gameState.player.a) * 0.1f;
+//    client.m_gameState.player.y += (client.m_keyState.FORWARD + -client.m_keyState.BACK) *
+//    std::sin(client.m_gameState.player.a) * 0.1f;
 }
 
 }

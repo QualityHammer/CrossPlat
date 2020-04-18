@@ -101,7 +101,7 @@ Packet& Packet::operator>>(Common::GameMap& gameMap) {
     const std::vector<u8> tmp{data.begin(), data.end()};
     gameMap = deserializeGameMap(tmp);
     
-    data.erase(data.begin(), data.begin() + gameMap.bytes());
+    data.erase(data.begin(), data.end());
     size -= gameMap.bytes();
     
     return *this;

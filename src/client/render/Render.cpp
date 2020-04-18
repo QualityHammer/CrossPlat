@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "../ClientOptions.hpp"
+#include <common/constructs/Entity.hpp>
 
 namespace Client {
 
@@ -77,17 +78,17 @@ void followRay(Pixels& pixels, const float& angle, const Common::Player& player,
     }
 }
 
-void renderSprite(const Common::Player& player, Pixels& pixels, const Sprite& sprite, const Texture& texture,
+void renderSprite(const Common::Player& player, Pixels& pixels, const Common::Entity& entity, const Texture& texture,
                   const std::array<u16, WINDOW_WIDTH>& distanceBuffer) {
     // Direction from player to sprite
-    float spriteDir{std::atan2(sprite.y - player.y, sprite.x - player.x)};
+    float spriteDir{std::atan2(entity.y - player.y, entity.x - player.x)};
     // Remove unneeded radians
     while (spriteDir - player.a > M_PI) spriteDir -= 2 * M_PI;
     while (spriteDir - player.a < -M_PI) spriteDir += 2 * M_PI;
     
     // Distance from player to sprite
-    float spriteDist{static_cast<float> (std::sqrt(pow(player.x - sprite.x, 2) +
-                                                   pow(player.y - sprite.y, 2)))};
+    float spriteDist{static_cast<float> (std::sqrt(pow(player.x - entity.x, 2) +
+                                                   pow(player.y - entity.y, 2)))};
     // Width/ height of sprite on screen
     u16 spriteScreenSize{std::min(WINDOW_HEIGHT, static_cast<u16>(WINDOW_HEIGHT / spriteDist))};
     // Top left position of sprite on screen
@@ -102,15 +103,14 @@ void renderSprite(const Common::Player& player, Pixels& pixels, const Sprite& sp
             if (yOff + (int)j < 0 || yOff + j >= WINDOW_HEIGHT) continue; // Sprite offscreen
             const Color& color{texture.getPixel(i * texture.size / spriteScreenSize,
                                                 j * texture.size / spriteScreenSize,
-                                                sprite.texID)};
+                                                entity.texID)};
             if (color >> 24 > 128)
                 pixels[xOff + i + ((yOff + j) * WINDOW_WIDTH)] = color;
         }
     }
 }
 
-void render(const GameState& gameState, Pixels& pixels, const TextureManager& tMan,
-            const std::vector<Sprite>& sprites) {
+void render(const GameState& gameState, Pixels& pixels, const TextureManager& tMan) {
     const Common::Player& player{gameState.player};
     const Common::GameMap& gMap{gameState.gMap};
     
@@ -127,8 +127,8 @@ void render(const GameState& gameState, Pixels& pixels, const TextureManager& tM
     }
     
     // Draw sprites
-    for (const auto& sprite : sprites) {
-        renderSprite(player, pixels, sprite, tMan[sprite.texID], distanceBuffer);
+    for (const auto& pair : gameState.entities) {
+        renderSprite(player, pixels, pair.second, tMan[pair.second.texID], distanceBuffer);
     }
 }
 

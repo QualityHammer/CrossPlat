@@ -12,7 +12,6 @@
 namespace Client {
 
 // Renders everything to the screen pixel data based on the game state.
-void render(const GameState& gameState, Pixels& pixels,
-            const TextureManager& tMan, const std::vector<Sprite>& sprites);
+void render(const GameState& gameState, Pixels& pixels, const TextureManager& tMan);
 
 }
