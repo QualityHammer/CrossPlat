@@ -7,6 +7,8 @@
 
 namespace Debug {
 
+static bool verbose{false};
+
 // Client debug
 void serverConnected(const std::string& address);
 void serverDisconnected();
