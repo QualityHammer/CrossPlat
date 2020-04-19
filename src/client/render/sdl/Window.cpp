@@ -1,9 +1,9 @@
-#include "Window.h"
+#include "Window.hpp"
 
-#include "../../ClientOptions.h"
-#include "../Render.h"
-#include "../Sprite.h"
-#include "SDLErrors.h"
+#include "../../ClientOptions.hpp"
+#include "../Render.hpp"
+#include "../Sprite.hpp"
+#include "SDLErrors.hpp"
 
 namespace Client {
 
@@ -33,7 +33,6 @@ WindowStatus Window::init() {
         SDLError(SDLErrorMsg::INIT);
         return WindowStatus::FAILED;
     }
-    SDL_SetRelativeMouseMode(SDL_TRUE);
     
     m_screenPixels.resize(WINDOW_WIDTH *
                           WINDOW_HEIGHT);
@@ -66,16 +65,14 @@ WindowStatus Window::init() {
                       SDL_TEXTUREACCESS_STREAMING,
                       WINDOW_WIDTH,
                       WINDOW_HEIGHT);
+    
+    setMouseFocus(true);
 
     return WindowStatus::GOOD;
 }
 
 void Window::draw(const GameState& gameState) {
-    std::vector<Sprite> sprites{
-        {13, 13, 30},
-        {3, 3, 29}
-    };
-    render(gameState, m_screenPixels, m_textureManager, sprites);
+    render(gameState, m_screenPixels, m_textureManager);
     
     SDL_UpdateTexture(m_screenTexture,
                         nullptr,
@@ -86,6 +83,10 @@ void Window::draw(const GameState& gameState) {
                    nullptr, nullptr);
     SDL_RenderPresent(m_renderer);
     SDL_Delay(10);
+}
+
+void Window::setMouseFocus(const bool isFocused) const {
+    SDL_SetRelativeMouseMode((SDL_bool)isFocused);
 }
 
 }

@@ -1,9 +1,8 @@
-set (render_h
-    render/Image.h
-    render/Sprite.h
-    render/Player.h
-    render/Pixels.h
-    render/Render.h
+set (render_hpp
+    render/Image.hpp
+    render/Sprite.hpp
+    render/Pixels.hpp
+    render/Render.hpp
 )
 
 set (render
@@ -11,9 +10,9 @@ set (render
     render/Render.cpp
 )
 
-set (input_h
-    input/MouseState.h
-    input/KeyboardState.h
+set (input_hpp
+    input/MouseState.hpp
+    input/KeyboardState.hpp
 )
 
 set (input
@@ -22,9 +21,9 @@ set (input
     input/KeyboardState.cpp
 )
 
-set (sdl_h
-    render/sdl/SDLErrors.h
-    render/sdl/Window.h
+set (sdl_hpp
+    render/sdl/SDLErrors.hpp
+    render/sdl/Window.hpp
 )
 
 set (sdl
@@ -32,16 +31,24 @@ set (sdl
     render/sdl/Window.cpp
 )
 
-set (texture_h
-    render/texture/TextureManager.h
-    render/texture/Texture.h
-    render/texture/TextureErrors.h
+set (texture_hpp
+    render/texture/TextureManager.hpp
+    render/texture/Texture.hpp
+    render/texture/TextureErrors.hpp
 )
 
 set (texture
     render/texture/TextureManager.cpp
     render/texture/Texture.cpp
     render/texture/TextureErrors.cpp
+)
+
+set (network_hpp
+    network/ClientNet.hpp
+)
+
+set (network
+    network/ClientNet.cpp
 )
 
 add_library(cplat_client
@@ -51,14 +58,16 @@ add_library(cplat_client
     ${sdl}
     ${texture}
     ${input}
+    ${network}
  
-    Client.h
-    ClientOptions.h
-    GameState.h
-    ${render_h}
-    ${sdl_h}
-    ${texture_h}
-    ${input_h}
+    Client.hpp
+    ClientOptions.hpp
+    GameState.hpp
+    ${render_hpp}
+    ${sdl_hpp}
+    ${texture_hpp}
+    ${input_hpp}
+    ${network_hpp}
 )
 
 set_compiler_flags(cplat_client)
@@ -68,29 +77,44 @@ set_compiler_flags(cplat_client)
 #--------------
 #   render/
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
-            PREFIX "Header Files" FILES ${render_h})
+            PREFIX "Header Files" FILES ${render_hpp})
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Source Files" FILES ${render})
 #   render/sdl/
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
-            PREFIX "Header Files" FILES ${sdl_h})
+            PREFIX "Header Files" FILES ${sdl_hpp})
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Source Files" FILES ${sdl})
 #   render/texture/
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
-            PREFIX "Header Files" FILES ${texture_h})
+            PREFIX "Header Files" FILES ${texture_hpp})
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Source Files" FILES ${texture})
 #   input/
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
-            PREFIX "Header Files" FILES ${input_h})
+            PREFIX "Header Files" FILES ${input_hpp})
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Source Files" FILES ${input})
+#   network/
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
+            PREFIX "Header Files" FILES ${network_hpp})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
+            PREFIX "Source Files" FILES ${network})
 
+target_include_directories(cplat_client
+    PRIVATE
+    "${CMAKE_SOURCE_DIR}/dependencies"
+    "${CMAKE_SOURCE_DIR}/src/server"
+    "${CMAKE_SOURCE_DIR}/src/common"
+)
+
+target_include_directories(cplat_client
+    PUBLIC
+    ${SDL2_INCLUDE_DIR}
+)
 
 target_link_libraries(cplat_client
 	cplat_common
 	cplat_server
-    enet
 	${SDL2_LIBRARY}
 )

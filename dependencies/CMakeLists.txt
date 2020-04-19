@@ -1,1 +1,1 @@
-add_library(enet enet/enet_impl.cpp)
+add_subdirectory(enet)

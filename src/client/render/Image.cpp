@@ -1,10 +1,10 @@
-#include "Image.h"
+#include "Image.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <utils/stb_image.h>
 
-#include "../ClientOptions.h"
-#include <common/ErrorHandler.h>
+#include "../ClientOptions.hpp"
+#include <common/ErrorHandler.hpp>
 
 namespace Client {
 
@@ -18,7 +18,11 @@ bool loadTexture(const std::string filename,
                  size_t& textSize,
                  size_t& textCnt) {
     int nchannels{-1}, w, h;
-    const std::string fullFilename = "../../assets/" + filename;
+    std::string assetsPath = "assets/";
+#ifdef __APPLE__
+    assetsPath = "../../assets/";
+#endif
+    const std::string fullFilename = assetsPath + filename;
     unsigned char* pixmap{stbi_load(fullFilename.c_str(),
                                     &w, &h,
                                     &nchannels,

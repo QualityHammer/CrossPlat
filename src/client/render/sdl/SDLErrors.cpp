@@ -1,4 +1,4 @@
-#include "SDLErrors.h"
+#include "SDLErrors.hpp"
 
 #include <SDL.h>
 #include <iostream>

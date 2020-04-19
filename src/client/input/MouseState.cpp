@@ -1,4 +1,4 @@
-#include "MouseState.h"
+#include "MouseState.hpp"
 
 namespace Client {
 

@@ -51,7 +51,6 @@ function (include_all target)
 		"${CMAKE_CURRENT_SOURCE_DIR}/src"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/server"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/common"
-		${SDL2_INCLUDE_DIR}
 	)
 endfunction(include_all)
 
@@ -60,7 +59,6 @@ function (link_all target)
 		cplat_client
 		cplat_common
 		cplat_server
-        enet
 	)
 endfunction(link_all)
 
@@ -74,20 +72,6 @@ add_subdirectory(src/client)
 
 add_executable(${PROJECT_NAME}
 	src/Main.cpp
-)
-
-target_include_directories(cplat_server
-	PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/common"
-)
-
-target_include_directories(cplat_client
-	PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/dependencies"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/server"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/common"
-	${SDL2_INCLUDE_DIR}
 )
 
 set_compiler_flags(${PROJECT_NAME})
