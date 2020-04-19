@@ -40,7 +40,10 @@ private:
     // Connection to game server
     ClientNet m_network;
     
+    bool focusMouse;
+    
     void init();
+    void update();
     // A function used to check for inputs
     friend void manageInputs(ClientEngine& client);
 };

@@ -33,7 +33,6 @@ WindowStatus Window::init() {
         SDLError(SDLErrorMsg::INIT);
         return WindowStatus::FAILED;
     }
-    SDL_SetRelativeMouseMode(SDL_TRUE);
     
     m_screenPixels.resize(WINDOW_WIDTH *
                           WINDOW_HEIGHT);
@@ -66,6 +65,8 @@ WindowStatus Window::init() {
                       SDL_TEXTUREACCESS_STREAMING,
                       WINDOW_WIDTH,
                       WINDOW_HEIGHT);
+    
+    setMouseFocus(true);
 
     return WindowStatus::GOOD;
 }
@@ -82,6 +83,10 @@ void Window::draw(const GameState& gameState) {
                    nullptr, nullptr);
     SDL_RenderPresent(m_renderer);
     SDL_Delay(10);
+}
+
+void Window::setMouseFocus(const bool isFocused) const {
+    SDL_SetRelativeMouseMode((SDL_bool)isFocused);
 }
 
 }

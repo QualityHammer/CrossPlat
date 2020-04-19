@@ -25,6 +25,8 @@ public:
     // Draws to the screen according to the
     // current game state.
     void draw(const GameState& gameState);
+    
+    void setMouseFocus(const bool isFocused) const;
 private:
     // Manager for all game textures
     TextureManager m_textureManager;
