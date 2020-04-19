@@ -13,7 +13,7 @@ ClientNet::ClientNet(GameState& gameState) : m_client{nullptr}, m_server{nullptr
         return;
     }
     
-    enet_address_set_host(&m_address, "localhost");
+    enet_address_set_host(&m_address, "192.168.0.69");
     m_address.port = 1513;
 }
 
