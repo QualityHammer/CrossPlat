@@ -1,5 +1,7 @@
 #include "Packet.hpp"
 
+#include <cassert>
+
 #include "Serialize.hpp"
 #include "Deserialize.hpp"
 
