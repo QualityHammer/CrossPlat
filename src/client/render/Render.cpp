@@ -92,8 +92,8 @@ void renderSprite(const Common::Player& player, Pixels& pixels, const Common::En
     // Width/ height of sprite on screen
     u16 spriteScreenSize{std::min(WINDOW_HEIGHT, static_cast<u16>(WINDOW_HEIGHT / spriteDist))};
     // Top left position of sprite on screen
-    u16 xOff{static_cast<u16>((spriteDir - player.a) / FOV * WINDOW_WIDTH + WINDOW_WIDTH / 2 - texture.size / 2)};
-    u16 yOff{static_cast<u16>(WINDOW_HEIGHT / 2 - spriteScreenSize / 2)};
+    i16 xOff{static_cast<i16>((spriteDir - player.a) / FOV * WINDOW_WIDTH + WINDOW_WIDTH / 2 - texture.size / 2)};
+    i16 yOff{static_cast<i16>(WINDOW_HEIGHT / 2 - spriteScreenSize / 2)};
     
     // Draw sprite to screen buffer
     for (u16 i{0}; i < spriteScreenSize; i++) {
