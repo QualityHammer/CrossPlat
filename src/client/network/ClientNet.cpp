@@ -7,7 +7,7 @@
 namespace Client {
 
 ClientNet::ClientNet(GameState& gameState) : m_client{nullptr}, m_server{nullptr}, m_gameState{gameState}, EID{0} {
-    m_client = enet_host_create(&m_address, 1, 2, 0, 0);
+    m_client = enet_host_create(NULL, 1, 2, 0, 0);
     if (m_client == nullptr) {
         ClientError(ClientErrorType::INIT_FAILED);
         return;
