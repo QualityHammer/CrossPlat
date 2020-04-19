@@ -28,11 +28,13 @@ set (network
 
 add_library(cplat_common
     Debug.cpp
+    GameOptions.cpp
 	ErrorHandler.cpp
     ${constructs}
     ${network}
- 
+
     Debug.hpp
+    GameOptions.hpp
     ErrorHandler.hpp
     ${constructs_hpp}
     ${network_hpp}
