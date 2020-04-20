@@ -1,9 +1,9 @@
 #include "FrameTimer.hpp"
 
 #include "SDL.h"
-#include <iostream>
 
 #include "../ClientOptions.hpp"
+#include <common/Debug.hpp>
 
 namespace Client {
 
@@ -15,6 +15,7 @@ namespace Client {
             m_timerPaused = true;
             m_frameEnd = SDL_GetTicks();
             m_deltaTime = m_frameEnd - m_frameStart;
+            Debug::showFrameTime(m_deltaTime);
             if (m_deltaTime < m_avgDeltaTime)
                 SDL_Delay(m_avgDeltaTime - m_deltaTime);
         }

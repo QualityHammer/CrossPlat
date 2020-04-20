@@ -12,6 +12,8 @@ int main(int argc, char* argv[]) {
     } else if (argc > 2) {
         if (std::string(argv[2]) == "-v") {
             GameOptions::verbose = true;
+        } else if (std::string(argv[2]) == "-ft") {
+            GameOptions::showFrameTime = true;
         }
     }
     if (strcmp(argv[1], "client") == 0) {

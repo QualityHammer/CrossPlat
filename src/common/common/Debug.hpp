@@ -11,6 +11,7 @@ namespace Debug {
 void serverConnected(const std::string& address);
 void serverDisconnected();
 void serverPacketRecieved();
+void showFrameTime(const u16& ms);
 
 // Server debug
 void clientConnected();
