@@ -4,6 +4,7 @@
 #include "input/MouseState.hpp"
 #include "input/KeyboardState.hpp"
 #include "network/ClientNet.hpp"
+#include "utils/FrameTimer.hpp"
 #include "GameState.hpp"
 
 namespace Client {
@@ -39,6 +40,8 @@ private:
     MouseState m_mouseState;
     // Connection to game server
     ClientNet m_network;
+    // Frame timer
+    FrameTimer m_frameTimer;
     
     bool focusMouse;
     

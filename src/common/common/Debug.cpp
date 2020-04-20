@@ -18,6 +18,12 @@ void serverDisconnected() {
     }
 }
 
+void showFrameTime(const u16& ms) {
+    if (GameOptions::showFrameTime) {
+        std::cout << "Frame: " << ms << "ms\n";
+    }
+}
+
 void clientConnected() {
     if (GameOptions::verbose) {
         std::cout << "Client connected" << std::endl;

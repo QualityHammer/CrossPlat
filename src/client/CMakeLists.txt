@@ -51,6 +51,14 @@ set (network
     network/ClientNet.cpp
 )
 
+set (utils_hpp
+    utils/FrameTimer.hpp
+)
+
+set (utils
+    utils/FrameTimer.cpp
+)
+
 add_library(cplat_client
 	Client.cpp
     GameState.cpp
@@ -59,7 +67,8 @@ add_library(cplat_client
     ${texture}
     ${input}
     ${network}
- 
+    ${utils}
+
     Client.hpp
     ClientOptions.hpp
     GameState.hpp
@@ -68,6 +77,7 @@ add_library(cplat_client
     ${texture_hpp}
     ${input_hpp}
     ${network_hpp}
+    ${utils_hpp}
 )
 
 set_compiler_flags(cplat_client)
@@ -100,6 +110,11 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Header Files" FILES ${network_hpp})
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Source Files" FILES ${network})
+#   utils/
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
+            PREFIX "Header Files" FILES ${utils_cpp})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
+            PREFIX "Source Files" FILES ${utils})
 
 target_include_directories(cplat_client
     PRIVATE
