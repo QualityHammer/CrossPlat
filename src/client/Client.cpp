@@ -18,11 +18,12 @@ void ClientEngine::run() {
     m_network.connect();
     m_frameTimer.start();
     while (m_status == ClientStatus::GOOD) {
+        m_frameTimer.unpause();
         m_network.getUpdates();
         manageInputs(*this);
         update();
         draw();
-        m_frameTimer.pauseFrame();
+        m_frameTimer.pause();
     }
     m_network.disconnect();
     m_frameTimer.stop();
