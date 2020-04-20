@@ -14,4 +14,7 @@ constexpr u16 WINDOW_HEIGHT{800};
 // Player fov
 constexpr float FOV{M_PI / 2};
 
+// Window FPS
+constexpr u8 FPS{30};
+
 }
