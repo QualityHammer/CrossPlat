@@ -8,21 +8,24 @@
 namespace Client {
 
 ClientEngine::ClientEngine() : m_status{ClientStatus::IDLE}, m_window{},
-m_gameState{}, m_keyState{}, m_mouseState{}, m_network{m_gameState}, focusMouse{true} {
+m_gameState{}, m_keyState{}, m_mouseState{}, m_network{m_gameState}, m_frameTimer{},
+focusMouse{true} {
     init();
 }
 
 void ClientEngine::run() {
     m_status = ClientStatus::GOOD;
     m_network.connect();
+    m_frameTimer.start();
     while (m_status == ClientStatus::GOOD) {
         m_network.getUpdates();
         manageInputs(*this);
         update();
-        
         draw();
+        m_frameTimer.pauseFrame();
     }
     m_network.disconnect();
+    m_frameTimer.stop();
 }
 
 void ClientEngine::draw() {
