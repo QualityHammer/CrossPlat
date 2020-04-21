@@ -13,7 +13,7 @@ struct Player {
     // Entity ID
     u8 EID;
     
-    static u8 bytes() { return sizeof(float) * 3 + sizeof(u8); }
+    u8 bytes() const { return sizeof(float) * 3 + sizeof(u8); }
 };
 
 }

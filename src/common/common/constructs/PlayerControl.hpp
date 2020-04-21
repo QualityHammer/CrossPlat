@@ -14,7 +14,7 @@ struct PlayerControl {
     // Amount to turn
     i8 turn;
     
-    static u8 bytes() { return sizeof(i8) * 3; }
+    u8 bytes() const { return sizeof(i8) * 3; }
 };
 
 }
