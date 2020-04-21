@@ -114,21 +114,27 @@ void render(const GameState& gameState, Pixels& pixels, const TextureManager& tM
     const Common::Player& player{gameState.player};
     const Common::GameMap& gMap{gameState.gMap};
     
-    // Fill top and bottom background colors
-    std::fill(pixels.begin(), pixels.end() - pixels.size() / 2, 0xf05aaac8);
-    std::fill(pixels.begin() + pixels.size() / 2, pixels.end(), 0xf0336699);
-    
-    std::array<u16, WINDOW_WIDTH> distanceBuffer{};
-    // Draw walls
-    for (u16 i{0}; i < WINDOW_WIDTH; i++) {
-        float angle{player.a - FOV / 2 + FOV * i / (float)WINDOW_WIDTH
-        };
-        followRay(pixels, angle, player, gMap, tMan, i, distanceBuffer);
-    }
-    
-    // Draw sprites
-    for (const auto& pair : gameState.entities) {
-        renderSprite(player, pixels, pair.second, tMan[pair.second.texID], distanceBuffer);
+    if (gMap.size > 0) {
+        // Fill top and bottom background colors
+        std::fill(pixels.begin(), pixels.end() - pixels.size() / 2, 0xf05aaac8);
+        std::fill(pixels.begin() + pixels.size() / 2, pixels.end(), 0xf0336699);
+        
+        std::array<u16, WINDOW_WIDTH> distanceBuffer{};
+        // Draw walls
+        for (u16 i{0}; i < WINDOW_WIDTH; i++) {
+            float angle{player.a - FOV / 2 + FOV * i / (float)WINDOW_WIDTH
+            };
+            followRay(pixels, angle, player, gMap, tMan, i, distanceBuffer);
+        }
+        
+        // Draw sprites
+        for (const auto& entity : gameState.entities) {
+            renderSprite(player, pixels, entity, tMan[entity.texID], distanceBuffer);
+        }
+        for (const auto& pair : gameState.players) {
+            renderSprite(player, pixels, reinterpret_cast<const Common::Entity&>(pair.second),
+                         tMan[pair.second.texID], distanceBuffer);
+        }
     }
 }
 

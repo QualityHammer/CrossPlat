@@ -1,11 +1,12 @@
 #pragma once
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 #include <common/network/Net.hpp>
 #include <common/network/Packet.hpp>
 #include <common/constructs/Types.hpp>
+#include <common/network/NetworkCommands.hpp>
 
 namespace Server {
 
@@ -41,18 +42,19 @@ private:
     // ENet server address
     ENetAddress m_address;
     // All of the currently connected client's address numbers.
-    std::map<ENetPeer*, u8> m_clients;
+    std::unordered_map<ENetPeer*, u8> m_clients;
     std::vector<bool> m_availID;
-    std::map<u8, Common::Entity> m_entities;
+    std::unordered_map<u8, Common::Player> m_players;
+    std::vector<Common::Entity> m_entities;
     
     const Common::GameMap m_gameMap;
     
     // Sends a packet to all clients currently connected.
-    void broadcastClientPacket(Net::Packet& packet) const;
+    void broadcastClientPacket(const Net::ServerCommand command, Net::Packet& packet) const;
     // Callback to recieve a packet from a client.
     void recievePacket(ENetEvent& event);
     // Sends a packet to a single client.
-    void sendClientPacket(Net::Packet& packet, ENetPeer* peer) const;
+    void sendClientPacket(const Net::ServerCommand command, Net::Packet& packet, ENetPeer* peer) const;
     
     // Callback for when a client connects.
     void newClientConnection(ENetEvent& event);

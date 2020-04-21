@@ -16,6 +16,7 @@ set (network_hpp
     network/Packet.hpp
     network/Serialize.hpp
     network/Deserialize.hpp
+    network/NetworkCommands.hpp
 )
 
 set (network

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <vector>
 
 #include "render/Pixels.hpp"
 #include <common/constructs/Entity.hpp>
@@ -21,7 +22,8 @@ public:
     // Game map data
     Common::GameMap gMap;
     
-    std::unordered_map<u8, Common::Entity> entities;
+    std::vector<Common::Entity> entities;
+    std::unordered_map<u8, Common::Player> players;
 };
 
 }

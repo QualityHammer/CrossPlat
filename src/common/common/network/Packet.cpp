@@ -9,24 +9,6 @@ namespace Net {
 
 Packet::Packet() : status{PacketStatus::IDLE}, type{PacketType::NONE}, size{0}, data{} {}
 
-ENetPacket* Packet::toENet() const {
-    std::vector<u8> tmp{{static_cast<u8>(type), static_cast<u8>(size & 0xff), static_cast<u8>((size & 0xff00) >> 8)}};
-    tmp.insert(tmp.end(), data.begin(), data.end());
-    return enet_packet_create(tmp.data(), tmp.size(), ENET_PACKET_FLAG_RELIABLE);
-}
-
-Packet& Packet::operator<<(ENetPacket* enetPacket) {
-    const u8* recv{reinterpret_cast<const u8*>(enetPacket->data)};
-    type = static_cast<PacketType>(*recv);
-    size = *(recv + 1) | (*(recv + 2) << 8);
-    const u8 dataOffset{3};
-    for (u16 i{dataOffset}; i < size + dataOffset; ++i)
-        data.push_back(*(recv + i));
-    enet_packet_destroy(enetPacket);
-    status = PacketStatus::RECIEVED;
-    return *this;
-}
-
 Packet& Packet::operator<<(const Common::Entity& entity) {
     assert(type == PacketType::ENTITY || type == PacketType::NONE);
     if (type == PacketType::NONE) {
@@ -135,13 +117,33 @@ Packet& Packet::operator>>(Common::PlayerControl& playerControl) {
     return *this;
 }
 
-void broadcastPacket(Packet& packet, ENetHost* host) {
-    enet_host_broadcast(host, 0, packet.toENet());
+void readENetPacket(ENetPacket* enetPacket, u8& command, Packet& packet) {
+    packet = Packet{};
+    const u8* recv{reinterpret_cast<const u8*>(enetPacket->data)};
+    command = *recv;
+    packet.type = static_cast<PacketType>(*(recv + 1));
+    packet.size = *(recv + 2) | (*(recv + 3) << 8);
+    const u8 dataOffset{4};
+    for (u16 i{dataOffset}; i < packet.size + dataOffset; ++i)
+        packet.data.push_back(*(recv + i));
+    enet_packet_destroy(enetPacket);
+    packet.status = PacketStatus::RECIEVED;
+}
+
+ENetPacket* createENetPacket(const u8 command, Packet& packet) {
+    std::vector<u8> tmp{{command, static_cast<u8>(packet.type), static_cast<u8>(packet.size & 0xff),
+        static_cast<u8>((packet.size & 0xff00) >> 8)}};
+    tmp.insert(tmp.end(), packet.data.begin(), packet.data.end());
+    return enet_packet_create(tmp.data(), tmp.size(), ENET_PACKET_FLAG_RELIABLE);
+}
+
+void broadcastPacket(const u8 command, Packet& packet, ENetHost* host) {
+    enet_host_broadcast(host, 0, createENetPacket(command, packet));
     packet.status = PacketStatus::SENT;
 }
 
-void sendPacket(Packet& packet, ENetPeer* peer) {
-    enet_peer_send(peer, 0, packet.toENet());
+void sendPacket(const u8 command, Packet& packet, ENetPeer* peer) {
+    enet_peer_send(peer, 0, createENetPacket(command, packet));
     packet.status = PacketStatus::SENT;
 }
 

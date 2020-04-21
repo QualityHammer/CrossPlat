@@ -45,13 +45,6 @@ public:
     // Packet data in bytes
     std::vector<u8> data;
     
-    // Creates and returns a ENet packet from the
-    // data in this packet.
-    ENetPacket* toENet() const;
-    
-    // Initializes data in this packet from the ENet packet.
-    Packet& operator<<(ENetPacket* enetPacket);
-    
     Packet& operator<<(const Common::Entity& entity);
     Packet& operator>>(Common::Entity& entity);
     Packet& operator<<(const Common::GameMap& gameMap);
@@ -62,9 +55,11 @@ public:
     Packet& operator>>(Common::PlayerControl& playerControl);
 };
 
+void readENetPacket(ENetPacket* enetPacket, u8& command, Packet& packet);
+ENetPacket* createENetPacket(const u8 command, Packet& packet);
 // Sends a packet to all peers connected to the host
-void broadcastPacket(Packet& packet, ENetHost* host);
+void broadcastPacket(const u8 command, Packet& packet, ENetHost* host);
 // Sends a packet to a peer.
-void sendPacket(Packet& packet, ENetPeer* peer);
+void sendPacket(const u8 command, Packet& packet, ENetPeer* peer);
 
 }

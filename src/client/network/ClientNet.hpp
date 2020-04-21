@@ -2,6 +2,7 @@
 
 #include "../GameState.hpp"
 #include <common/network/Net.hpp>
+#include <common/network/NetworkCommands.hpp>
 #include <common/constructs/PlayerControl.hpp>
 
 namespace Client {
@@ -21,7 +22,7 @@ private:
     ENetAddress m_address;
     ENetPeer* m_server;
     GameState& m_gameState;
-    u8 EID;
+    u8 PID;
 };
 
 }

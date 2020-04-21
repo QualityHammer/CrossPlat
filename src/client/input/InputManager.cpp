@@ -61,11 +61,6 @@ void manageInputs(ClientEngine& client) {
             default: break;
         }
     }
-    
-    // Move to server
-    //
-    // Move view (look around)
-    client.m_gameState.player.a += (float)client.m_mouseState.xMov * 0.01;
 }
 
 }

@@ -10,9 +10,7 @@ const std::vector<u8> serialize(const Common::Entity& entity) {
     for (u8 i{0}; i < sizeof(float); ++i) {
         data[i + sizeof(float)] = (*reinterpret_cast<const u32*>(&entity.y) & (0xff << (i * 8))) >> (i * 8);
     }
-    data[8] = entity.type;
-    data[9] = entity.texID;
-    data[10] = entity.EID;
+    data[8] = entity.texID;
     
     return data;
 }
@@ -31,30 +29,24 @@ const std::vector<u8> serialize(const Common::GameMap& gMap) {
 }
 
 const std::vector<u8> serialize(const Common::Player& player) {
-    std::vector<u8> data;
-    data.resize(player.bytes());
+    std::vector<u8> data{serialize(reinterpret_cast<const Common::Entity&>(player))};
     
     for (u8 i{0}; i < sizeof(float); ++i) {
-        data[i] = (*reinterpret_cast<const u32*>(&player.x) & (0xff << (i * 8))) >> (i * 8);
+        data.push_back((*reinterpret_cast<const u32*>(&player.a) & (0xff << (i * 8))) >> (i * 8));
     }
-    for (u8 i{0}; i < sizeof(float); ++i) {
-        data[i] = (*reinterpret_cast<const u32*>(&player.y) & (0xff << (i * 8))) >> (i * 8);
-    }
-    for (u8 i{0}; i < sizeof(float); ++i) {
-        data[i] = (*reinterpret_cast<const u32*>(&player.a) & (0xff << (i * 8))) >> (i * 8);
-    }
-    data[player.bytes() - 1] = player.EID;
+    data.push_back(player.PID);
     
     return data;
 }
 
 const std::vector<u8> serialize(const Common::PlayerControl& playerControl) {
     std::vector<u8> data;
-    data.resize(playerControl.bytes());
     
-    data[0] = playerControl.moveX;
-    data[1] = playerControl.moveY;
-    data[2] = playerControl.turn;
+    data.push_back(playerControl.moveX);
+    data.push_back(playerControl.moveY);
+    for (u8 i{0}; i < sizeof(float); ++i) {
+        data.push_back((*reinterpret_cast<const u32*>(&playerControl.turn) & (0xff << (i * 8))) >> (i * 8));
+    }
     
     return data;
 }
