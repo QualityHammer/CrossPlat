@@ -1,28 +1,40 @@
 #include "Serialize.hpp"
 
+namespace {
+
+void serializeFloat(const float& f, std::vector<u8>& data, const u16 offset) {
+    for (u8 i{0}; i < sizeof(float); ++i) {
+        data[i + offset] = (*reinterpret_cast<const u32*>(&f) & (0xff << (i * 8))) >> (i * 8);
+    }
+}
+
+void serializeU16(const u16& i, std::vector<u8>& data, const u16 offset) {
+    data[offset] = i & 0xff;
+    data[offset + 1] = (i & 0xff00) >> 8;
+}
+
+}
+
+namespace Net {
+
 const std::vector<u8> serialize(const Common::Entity& entity) {
     std::vector<u8> data{};
     data.resize(entity.bytes());
     
-    for (u8 i{0}; i < sizeof(float); ++i) {
-        data[i] = (*reinterpret_cast<const u32*>(&entity.x) & (0xff << (i * 8))) >> (i * 8);
-    }
-    for (u8 i{0}; i < sizeof(float); ++i) {
-        data[i + sizeof(float)] = (*reinterpret_cast<const u32*>(&entity.y) & (0xff << (i * 8))) >> (i * 8);
-    }
-    data[8] = entity.texID;
+    serializeFloat(entity.x, data, 0);
+    serializeFloat(entity.y, data, sizeof(float));
+    data[sizeof(float) * 2] = entity.texID;
     
     return data;
 }
 
 const std::vector<u8> serialize(const Common::GameMap& gMap) {
     std::vector<u8> data;
-    data.resize(4);
+    data.resize(sizeof(u16) + 2);
     
     data[0] = gMap.w;
     data[1] = gMap.h;
-    data[2] = gMap.size & 0xff;
-    data[3] = (gMap.size & 0xff00) >> 8;
+    serializeU16(gMap.size, data, 2);
     data.insert(data.end(), gMap.data.begin(), gMap.data.end());
     
     return data;
@@ -30,23 +42,23 @@ const std::vector<u8> serialize(const Common::GameMap& gMap) {
 
 const std::vector<u8> serialize(const Common::Player& player) {
     std::vector<u8> data{serialize(reinterpret_cast<const Common::Entity&>(player))};
+    data.resize(player.bytes());
     
-    for (u8 i{0}; i < sizeof(float); ++i) {
-        data.push_back((*reinterpret_cast<const u32*>(&player.a) & (0xff << (i * 8))) >> (i * 8));
-    }
-    data.push_back(player.PID);
+    serializeFloat(player.a, data, sizeof(float) * 2 + 1);
+    data[sizeof(float) * 3 + 1] = player.PID;
     
     return data;
 }
 
 const std::vector<u8> serialize(const Common::PlayerControl& playerControl) {
-    std::vector<u8> data;
+    std::vector<u8> data{};
+    data.resize(playerControl.bytes());
     
-    data.push_back(playerControl.moveX);
-    data.push_back(playerControl.moveY);
-    for (u8 i{0}; i < sizeof(float); ++i) {
-        data.push_back((*reinterpret_cast<const u32*>(&playerControl.turn) & (0xff << (i * 8))) >> (i * 8));
-    }
+    data[0] = playerControl.moveX;
+    data[1] = playerControl.moveY;
+    serializeFloat(playerControl.turn, data, 2);
     
     return data;
+}
+
 }
