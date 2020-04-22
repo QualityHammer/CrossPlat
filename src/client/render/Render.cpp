@@ -14,7 +14,7 @@ Pixels textureColumn(const Texture& texture, const u8 texID, const u16 coordX,
     const size_t imgW{texture.size * texture.count};
     const size_t imgH{texture.size};
     assert(texture.pixels.size() == imgW * imgH && coordX < texture.size &&
-           texID - offset < texture.count);
+           static_cast<size_t>(texID - offset) < texture.count);
     Pixels column{};
     column.resize(columnHeight);
     for (size_t y{0}; y < columnHeight; y++) {
