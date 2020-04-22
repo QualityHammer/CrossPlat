@@ -12,7 +12,8 @@ enum class ServerCommand : u8 {
     GAME_MAP,
     ENTITY,
     PLAYER,
-    CLIENT_PLAYER
+    CLIENT_PLAYER,
+    PLAYER_EXIT,
 };
 
 }

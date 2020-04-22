@@ -1,4 +1,5 @@
 #include "Deserialize.hpp"
+
 namespace {
 
 float deserializeFloat(const std::vector<u8>& data, const u16 offset) {

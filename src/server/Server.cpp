@@ -113,6 +113,9 @@ void ServerEngine::recievePacket(ENetEvent &event) {
 
 void ServerEngine::removeClientConnection(ENetEvent &event) {
     Debug::clientDisconnected();
+    Net::Packet pPack{};
+    pPack << m_players[m_clients[event.peer]];
+    broadcastClientPacket(Net::ServerCommand::PLAYER_EXIT, pPack);
     m_players.erase(m_clients[event.peer]);
     m_availID[m_clients[event.peer]] = false;
     m_clients.erase(event.peer);
