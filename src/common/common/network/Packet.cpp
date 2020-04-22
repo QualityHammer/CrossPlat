@@ -131,6 +131,7 @@ void readENetPacket(ENetPacket* enetPacket, u8& command, Packet& packet) {
 }
 
 ENetPacket* createENetPacket(const u8 command, Packet& packet) {
+    if (packet.size == 0) return nullptr;
     std::vector<u8> tmp{{command, static_cast<u8>(packet.type), static_cast<u8>(packet.size & 0xff),
         static_cast<u8>((packet.size & 0xff00) >> 8)}};
     tmp.insert(tmp.end(), packet.data.begin(), packet.data.end());
@@ -138,13 +139,19 @@ ENetPacket* createENetPacket(const u8 command, Packet& packet) {
 }
 
 void broadcastPacket(const u8 command, Packet& packet, ENetHost* host) {
-    enet_host_broadcast(host, 0, createENetPacket(command, packet));
-    packet.status = PacketStatus::SENT;
+    ENetPacket* enetPacket{createENetPacket(command, packet)};
+    if (enetPacket != nullptr) {
+        enet_host_broadcast(host, 0, enetPacket);
+        packet.status = PacketStatus::SENT;
+    }
 }
 
 void sendPacket(const u8 command, Packet& packet, ENetPeer* peer) {
-    enet_peer_send(peer, 0, createENetPacket(command, packet));
-    packet.status = PacketStatus::SENT;
+    ENetPacket* enetPacket{createENetPacket(command, packet)};
+    if (enetPacket != nullptr) {
+        enet_peer_send(peer, 0, enetPacket);
+        packet.status = PacketStatus::SENT;
+    }
 }
 
 }
