@@ -11,15 +11,10 @@ namespace Common {
 struct Entity {
     // World position
     float x, y;
-    u8 type;
     // ID used to pick texture for entity
     u8 texID;
-    // Unique ID for each entity in a game
-    u8 EID;
     
-    u8 bytes() const { return sizeof(float) * 2 + sizeof(u8) * 3; }
+    u8 bytes() const { return sizeof(float) * 2 + sizeof(u8); }
 };
-
-using Entities = std::vector<Entity>;
 
 }

@@ -12,9 +12,9 @@ struct PlayerControl {
     // Movement in Y direction
     i8 moveY;
     // Amount to turn
-    i8 turn;
+    float turn;
     
-    u8 bytes() const { return sizeof(i8) * 3; }
+    u8 bytes() const { return sizeof(i8) * 2 + sizeof(float); }
 };
 
 }

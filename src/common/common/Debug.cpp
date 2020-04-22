@@ -62,7 +62,7 @@ void showPacket(const Net::Packet& packet) {
             std::cout << (int)packet.data[i];
             if (i != packet.size - 1)
                 std::cout << ", ";
-            if (i != 0 && i % 8 == 0)
+            if (i != 0 && i % 16 == 0)
                 std::cout << std::endl << "        ";
         }
         std::cout << std::endl << ")" << std::endl;

@@ -10,9 +10,9 @@
 namespace Server {
 
 ServerEngine::ServerEngine() : maxConnections{5}, status{ServerStatus::IDLE}, m_server{nullptr},
-m_availID{}, m_entities{{
-    {0, {5.234, 5.234, 0, 29, 0}},
-    {1, {2.234, 13.234, 0, 30, 1}},
+m_availID{}, m_players{}, m_entities{{
+    {5.234, 5.234, 29},
+    {2.234, 13.234, 30},
 }}, m_gameMap {
     16,
     16,
@@ -45,16 +45,14 @@ m_availID{}, m_entities{{
     }
     Debug::serverRunning("localhost", m_address.port);
     m_availID.resize(255);
-    m_availID[0] = true;
-    m_availID[1] = true;
 }
 
 ServerEngine::~ServerEngine() {
     enet_host_destroy(m_server);
 }
 
-void ServerEngine::broadcastClientPacket(Net::Packet& packet) const {
-    Net::broadcastPacket(packet, m_server);
+void ServerEngine::broadcastClientPacket(const Net::ServerCommand command, Net::Packet& packet) const {
+    Net::broadcastPacket(static_cast<u8>(command), packet, m_server);
     enet_host_flush(m_server);
 }
 
@@ -62,52 +60,67 @@ void ServerEngine::newClientConnection(ENetEvent &event) {
     Debug::clientConnected();
     Net::Packet gmPack{};
     Net::Packet ePack{};
+    Net::Packet pPack{};
+    // Create PID
     for (u8 i{0}; i < m_availID.size() - 1; ++i) {
         if (!m_availID[i]) {
             m_availID[i] = true;
-            m_entities[i] = {3.234, 3.234, 1, 29, i};
+            m_players[i] = {{3.234f, 3.234f, 30}, 1.4f, i};
             m_clients[event.peer] = i;
             event.peer->data = &m_clients[event.peer];
             break;
         }
     }
+    // Send game map
     gmPack << m_gameMap;
-    sendClientPacket(gmPack, event.peer);
-    for (auto it{m_entities.rbegin()}; it != m_entities.rend(); ++it) {
-        ePack << it->second;
+    sendClientPacket(Net::ServerCommand::GAME_MAP, gmPack, event.peer);
+    // Send entities
+    for (const auto& entity : m_entities) {
+        ePack << entity;
     }
-    sendClientPacket(ePack, event.peer);
+    sendClientPacket(Net::ServerCommand::ENTITY, ePack, event.peer);
+    // Send client's player for initialization
     Net::Packet eUpdate{};
-    eUpdate << m_entities[m_clients[event.peer]];
-    broadcastClientPacket(eUpdate);
+    eUpdate << m_players[m_clients[event.peer]];
+    sendClientPacket(Net::ServerCommand::CLIENT_PLAYER, eUpdate, event.peer);
+    // Send existing players
+    for (const auto& pair : m_players) {
+        if (pair.first != m_clients[event.peer])
+            pPack << pair.second;
+    }
+    sendClientPacket(Net::ServerCommand::PLAYER, pPack, event.peer);
+    // Broadcast client's player to all clients
+    broadcastClientPacket(Net::ServerCommand::PLAYER, eUpdate);
 }
 
 void ServerEngine::recievePacket(ENetEvent &event) {
     Debug::clientPacketRecieved();
-    Net::Packet packet{};
-    packet << event.packet;
-    if (packet.type == Net::PacketType::PLAYER_CONTROL) {
+    Net::Packet packet;
+    Net::ClientCommand command;
+    Net::readENetPacket(event.packet, reinterpret_cast<u8&>(command), packet);
+    if (command == Net::ClientCommand::PLAYER_CONTROL) {
         Common::PlayerControl pc;
         packet >> pc;
-        Common::Entity& player{m_entities[m_clients[event.peer]]};
+        Common::Player& player{m_players[m_clients[event.peer]]};
         player.x += pc.moveX * 0.001f;
         player.y += pc.moveY * 0.001f;
+        player.a += pc.turn;
         Net::Packet entPack{};
         entPack << player;
-        broadcastClientPacket(entPack);
+        broadcastClientPacket(Net::ServerCommand::PLAYER, entPack);
     }
 }
 
 void ServerEngine::removeClientConnection(ENetEvent &event) {
     Debug::clientDisconnected();
-    m_entities.erase(m_clients[event.peer]);
+    m_players.erase(m_clients[event.peer]);
     m_availID[m_clients[event.peer]] = false;
     m_clients.erase(event.peer);
     event.peer->data = NULL;
 }
 
-void ServerEngine::sendClientPacket(Net::Packet& packet, ENetPeer* peer) const {
-    sendPacket(packet, peer);
+void ServerEngine::sendClientPacket(const Net::ServerCommand command, Net::Packet& packet, ENetPeer* peer) const {
+    sendPacket(static_cast<u8>(command), packet, peer);
     enet_host_flush(m_server);
 }
 

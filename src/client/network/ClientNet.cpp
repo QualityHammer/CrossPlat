@@ -6,7 +6,7 @@
 
 namespace Client {
 
-ClientNet::ClientNet(GameState& gameState) : m_client{nullptr}, m_server{nullptr}, m_gameState{gameState}, EID{0} {
+ClientNet::ClientNet(GameState& gameState) : m_client{nullptr}, m_server{nullptr}, m_gameState{gameState}, PID{0} {
     m_client = enet_host_create(NULL, 1, 2, 0, 0);
     if (m_client == nullptr) {
         ClientError(ClientErrorType::INIT_FAILED);
@@ -68,30 +68,39 @@ void ClientNet::getUpdates() {
 void ClientNet::sendPlayerControl(Common::PlayerControl& pc) {
     Net::Packet packet{};
     packet << pc;
-    Net::sendPacket(packet, m_server);
+    Net::sendPacket(static_cast<u8>(Net::ClientCommand::PLAYER_CONTROL), packet, m_server);
     enet_host_flush(m_client);
 }
 
 void ClientNet::recievePacket(ENetEvent &event) {
-    Net::Packet packet{};
-    packet << event.packet;
+    Net::Packet packet;
+    Net::ServerCommand command;
+    Net::readENetPacket(event.packet, reinterpret_cast<u8&>(command), packet);
     Debug::showPacket(packet);
     Common::Entity entity;
-    switch (packet.type) {
-        case Net::PacketType::GAME_MAP:
+    Common::Player player;
+    switch (command) {
+        case Net::ServerCommand::GAME_MAP:
             packet >> m_gameState.gMap;
             break;
-        case Net::PacketType::ENTITY:
+        case Net::ServerCommand::ENTITY:
             while (packet.size > 0) {
                 packet >> entity;
-                if (entity.type == 1 && EID == 0)
-                    EID = entity.EID;
-                if (entity.type == 1 && entity.EID == EID) {
-                    m_gameState.player.x = entity.x;
-                    m_gameState.player.y = entity.y;
-                } else {
-                    m_gameState.entities[entity.EID] = entity;
-                }
+                m_gameState.entities.push_back(entity);
+            }
+            break;
+        case Net::ServerCommand::CLIENT_PLAYER:
+            packet >> m_gameState.player;
+            PID = m_gameState.player.PID;
+            break;
+        case Net::ServerCommand::PLAYER:
+            while (packet.size > 0) {
+                packet >> player;
+                if (player.PID == PID)
+                    m_gameState.player = player;
+                else
+                    m_gameState.players[player.PID] = player;
+                break;
             }
         default:
             break;
