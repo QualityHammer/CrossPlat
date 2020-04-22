@@ -18,8 +18,8 @@ Pixels textureColumn(const Texture& texture, const u8 texID, const u16 coordX,
     Pixels column{};
     column.resize(columnHeight);
     for (size_t y{0}; y < columnHeight; y++) {
-        size_t px{(texID) * texture.size + coordX};
-        size_t py{(y * texture.size) / columnHeight};
+        const size_t px{(texID) * texture.size + coordX};
+        const size_t py{(y * texture.size) / columnHeight};
         column[y] = texture.pixels[px + py * imgW];
     }
     return column;
@@ -37,8 +37,8 @@ void renderColumn(Pixels& pixels, const Common::GameMap& gMap, const TextureMana
     // Prevent column overflow
     if (columnHeight > WINDOW_HEIGHT) columnHeight = WINDOW_HEIGHT;
     // The position where the ray has hit a wall
-    float hitX{cx - std::floor(cx + 0.5f)};
-    float hitY{cy - std::floor(cy + 0.5f)};
+    const float hitX{cx - std::floor(cx + 0.5f)};
+    const float hitY{cy - std::floor(cy + 0.5f)};
     int coordX{static_cast<int>(hitX * texture.size)};
     // For vertical walls
     if (std::abs(hitY) > std::abs(hitX)) {
@@ -63,8 +63,8 @@ void followRay(Pixels& pixels, const float& angle, const Common::Player& player,
                std::array<u16, WINDOW_WIDTH>& distanceBuffer) {
     // Follow ray until a wall is hit
     for (float t{0.0}; t < 20.0; t += 0.02) {
-        float cx{player.x + t * std::cos(angle)};
-        float cy{player.y + t * std::sin(angle)};
+        const float cx{player.x + t * std::cos(angle)};
+        const float cy{player.y + t * std::sin(angle)};
         int px{static_cast<int>(cx * WINDOW_WIDTH / gMap.w)};
         int py{static_cast<int>(cy * WINDOW_HEIGHT / gMap.h)};
         const int mapIndex{(int)cx + (int)cy * gMap.w};
@@ -122,8 +122,7 @@ void render(const GameState& gameState, Pixels& pixels, const TextureManager& tM
         std::array<u16, WINDOW_WIDTH> distanceBuffer{};
         // Draw walls
         for (u16 i{0}; i < WINDOW_WIDTH; i++) {
-            float angle{player.a - FOV / 2 + FOV * i / (float)WINDOW_WIDTH
-            };
+            float angle{player.a - FOV / 2 + FOV * i / (float)WINDOW_WIDTH};
             followRay(pixels, angle, player, gMap, tMan, i, distanceBuffer);
         }
         
