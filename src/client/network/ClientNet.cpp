@@ -100,12 +100,13 @@ void ClientNet::recievePacket(ENetEvent &event) {
                     m_gameState.player = player;
                 else
                     m_gameState.players[player.PID] = player;
-                break;
             }
+            break;
         case Net::ServerCommand::PLAYER_EXIT:
             packet >> player;
             if (player.PID != PID)
                 m_gameState.players.erase(player.PID);
+            break;
         default:
             break;
     }
