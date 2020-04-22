@@ -8,6 +8,9 @@ set (constructs_hpp
 
 set (constructs
     constructs/GameMap.cpp
+    constructs/Entity.cpp
+    constructs/Player.cpp
+    constructs/PlayerControl.cpp
 )
 
 set (network_hpp

@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "../network/Packet.hpp"
 #include "Types.hpp"
 
 namespace Common {
@@ -21,6 +22,9 @@ struct GameMap {
     const u8& operator[](const u16 index) const;
     
     u16 bytes() const { return sizeof(u16) * 3 + sizeof(u8) * data.size(); }
-};
+
+    friend Net::Packet& operator<<(Net::Packet& packet, const Common::GameMap& gameMap);
+    friend Net::Packet& operator>>(Net::Packet& packet, Common::GameMap& gameMap);
+};  
 
 }

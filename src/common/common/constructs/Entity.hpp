@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "../network/Packet.hpp"
 #include "Types.hpp"
 
 namespace Common {
@@ -15,6 +16,9 @@ struct Entity {
     u8 texID;
     
     u8 bytes() const { return sizeof(float) * 2 + sizeof(u8); }
+
+    friend Net::Packet& operator<<(Net::Packet& packet, const Common::Entity& entity);
+    friend Net::Packet& operator>>(Net::Packet& packet, Common::Entity& entity);
 };
 
 }

@@ -2,6 +2,8 @@
 
 #include "Types.hpp"
 
+#include "../network/Packet.hpp"
+
 namespace Common {
 
 // Represents a client's player movement
@@ -15,6 +17,9 @@ struct PlayerControl {
     float turn;
     
     u8 bytes() const { return sizeof(i8) * 2 + sizeof(float); }
+
+    friend Net::Packet& operator<<(Net::Packet& packet, const Common::PlayerControl& playerControl);
+    friend Net::Packet& operator>>(Net::Packet& packet, Common::PlayerControl& playerControl);
 };
 
 }

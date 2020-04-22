@@ -5,6 +5,10 @@
 
 #include <common/network/Net.hpp>
 #include <common/network/Packet.hpp>
+#include <common/constructs/Entity.hpp>
+#include <common/constructs/GameMap.hpp>
+#include <common/constructs/Player.hpp>
+#include <common/constructs/PlayerControl.hpp>
 #include <common/constructs/Types.hpp>
 #include <common/network/NetworkCommands.hpp>
 
