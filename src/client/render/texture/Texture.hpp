@@ -16,7 +16,7 @@ public:
     Texture();
     // Initializes texture from a file.
     // Offset should be the number of currently loaded pictures.
-    Texture(const std::string filename, const u8 texIDOffset);
+    Texture(const std::string filename, const u8 IDOffset);
     
     // Returns pixel data from a location in one of the pictures.
     const Color& getPixel(const u8 x, const u8 y, const u8 texID) const;

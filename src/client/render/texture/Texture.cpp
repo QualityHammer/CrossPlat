@@ -7,8 +7,8 @@ namespace Client {
 
 Texture::Texture() {}
 
-Texture::Texture(const std::string filename, const u8 texIDOffset)
-: texIDOffset{texIDOffset} {
+Texture::Texture(const std::string filename, const u8 IDOffset)
+: texIDOffset{IDOffset} {
     if (!loadTexture(filename, pixels,
                      size, count)) {
         TextureError(filename);

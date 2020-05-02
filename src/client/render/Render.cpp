@@ -18,9 +18,8 @@ Pixels textureColumn(const Texture& texture, const u8 texID, const u16 coordX,
     Pixels column{};
     column.resize(columnHeight);
     for (size_t y{0}; y < columnHeight; y++) {
-        const size_t px{(texID) * texture.size + coordX};
         const size_t py{(y * texture.size) / columnHeight};
-        column[y] = texture.pixels[px + py * imgW];
+        column[y] = texture.getPixel(coordX, py, texID);
     }
     return column;
 }
@@ -47,8 +46,7 @@ void renderColumn(Pixels& pixels, const Common::GameMap& gMap, const TextureMana
     if (coordX < 0) coordX += texture.size;
     assert(coordX >= 0 && coordX < (int)texture.size);
     
-    std::vector<Color> column =
-    textureColumn(texture, texID, coordX, columnHeight, tMan.offset(texID));
+    std::vector<Color> column = textureColumn(texture, texID, coordX, columnHeight, tMan.offset(texID));
     px = rayNum;
     // Display column
     for (size_t j{0}; j < columnHeight; j++) {

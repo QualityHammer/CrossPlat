@@ -22,8 +22,7 @@ m_filenames{{
 
 const Texture& TextureManager::operator[](const u8 texID) const {
     assert(texID < textureCount);
-    for (u8 i{static_cast<u8>(TextureName::NAME_COUNT) - 1};
-        i >= 0; i--){
+    for (i16 i{static_cast<u8>(TextureName::NAME_COUNT) - 1}; i >= 0; i--){
         if (texID >= m_textures[i].texIDOffset)
             return m_textures[i];
     }
