@@ -4,6 +4,7 @@ project(CrossPlat VERSION 1.0
   DESCRIPTION "A silly Wolfenstein-like 'Game' for me to learn stuff."
 	LANGUAGES CXX)
 include(cmake/ProjectSettings.cmake)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Interface for c++ std and compile-time options
 add_library(project_options INTERFACE)
@@ -26,45 +27,50 @@ add_library(project_warnings INTERFACE)
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)
 
-set(
-	CMAKE_MODULE_PATH
-	"${CMAKE_CURRENT_SOURCE_DIR}/cmake"
-	${CMAKE_MODULE_PATH}
-)
+# sanitizer options if supported by compiler
+include(cmake/Sanitizers.cmake)
+enable_sanitizers(project_options)
 
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+# enable doxygen
+include(cmake/Doxygen.cmake)
+enable_doxygen()
 
+# allow for static analysis options
+include(cmake/StaticAnalyzers.cmake)
 
-function (include_all target)
-	target_include_directories(${target}
-		PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/dependencies"
-		"${CMAKE_CURRENT_SOURCE_DIR}/src"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/server"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/common"
-	)
-endfunction(include_all)
+option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
+option(ENABLE_TESTING "Enable test builds" ON)
 
-function (link_all target)
-	target_link_libraries(${target}
-		cplat_client
-		cplat_common
-		cplat_server
-	)
-endfunction(link_all)
+set(CONAN_EXTRA_REQUIRES "")
+set(CONAN_EXTRA_OPTIONS "")
 
-find_package(SDL2 REQUIRED)
+if (USE_IMGUI)
+  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
+    imgui-sfml/2.1@bincrafters/stable)
+endif()
 
-add_subdirectory(dependencies)
+if (USE_SDL)
+  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
+    sdl2/2.0.10@bincrafters/stable)
+endif()
 
-add_subdirectory(src/common/common)
-add_subdirectory(src/server)
-add_subdirectory(src/client)
+include(cmake/Conan.cmake)
+run_conan()
 
-add_executable(${PROJECT_NAME}
-	src/Main.cpp
-)
+if (ENABLE_TESTING)
+  enable_testing()
+  message(
+    "Building tests. Be sure to check out test/constexpr_tests for constexpr testing"
+  )
+#add_subdirectory(test)
+endif()
 
-set_compiler_flags(${PROJECT_NAME})
-include_all(${PROJECT_NAME})
-link_all(${PROJECT_NAME})
+if (ENABLE_FUZZING)
+  message(
+    "Building fuzz tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html"
+  )
+#add_subdirectory(fuzz_test)
+endif()
+
+add_subdirectory(include)
+add_subdirectory(src)

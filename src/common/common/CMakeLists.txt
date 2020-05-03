@@ -44,8 +44,6 @@ add_library(cplat_common
     ${network_hpp}
 )
 
-set_compiler_flags(cplat_common)
-
 # Set folder structure for IDEs
 #   DIRECTORY
 #--------------
@@ -62,9 +60,16 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
 
 target_include_directories(cplat_common
     PUBLIC
-    "${CMAKE_SOURCE_DIR}/dependencies/enet/include"
+    "${CMAKE_SOURCE_DIR}/include/enet/include"
 )
 
 target_link_libraries(cplat_common
-    enet
+  PUBLIC
+  enet
+  PRIVATE
+  project_options
+  project_warnings
+  CONAN_PKG::docopt.cpp
+  CONAN_PKG::fmt
+  CONAN_PKG::spdlog
 )
