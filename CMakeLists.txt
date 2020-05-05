@@ -41,19 +41,6 @@ include(cmake/StaticAnalyzers.cmake)
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable test builds" ON)
 
-set(CONAN_EXTRA_REQUIRES "")
-set(CONAN_EXTRA_OPTIONS "")
-
-if (USE_IMGUI)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
-    imgui-sfml/2.1@bincrafters/stable)
-endif()
-
-if (USE_SDL)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
-    sdl2/2.0.10@bincrafters/stable)
-endif()
-
 include(cmake/Conan.cmake)
 run_conan()
 

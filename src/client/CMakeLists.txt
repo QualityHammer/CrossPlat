@@ -114,6 +114,9 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/"
             PREFIX "Source Files" FILES ${utils})
 
+include("${CMAKE_SOURCE_DIR}/cmake/FindSDL2.cmake")
+find_package(SDL2 REQUIRED)
+
 target_include_directories(cplat_client
   PUBLIC
   "${CMAKE_SOURCE_DIR}/include"
