@@ -29,6 +29,8 @@ Net::Packet& operator>>(Net::Packet& packet, Common::Player& player) {
     const Player tmpPla{Net::deserializePlayer(tmp)};
     player.x = tmpPla.x;
     player.y = tmpPla.y;
+    player.velX = tmpPla.velX;
+    player.velY = tmpPla.velY;
     player.texID = tmpPla.texID;
     player.a = tmpPla.a;
     player.PID = tmpPla.PID;

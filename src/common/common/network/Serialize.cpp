@@ -23,7 +23,9 @@ const std::vector<u8> serialize(const Common::Entity& entity) {
     
     serializeFloat(entity.x, data, 0);
     serializeFloat(entity.y, data, sizeof(float));
-    data[sizeof(float) * 2] = entity.texID;
+    serializeFloat(entity.velX, data, sizeof(float) * 2);
+    serializeFloat(entity.velY, data, sizeof(float) * 3);
+    data[sizeof(float) * 4] = entity.texID;
     
     return data;
 }
@@ -44,8 +46,9 @@ const std::vector<u8> serialize(const Common::Player& player) {
     std::vector<u8> data{serialize(reinterpret_cast<const Common::Entity&>(player))};
     data.resize(player.bytes());
     
-    serializeFloat(player.a, data, sizeof(float) * 2 + 1);
-    data[sizeof(float) * 3 + 1] = player.PID;
+    const u8 entityBytes{reinterpret_cast<const Common::Entity&>(player).bytes()};
+    serializeFloat(player.a, data, entityBytes);
+    data[sizeof(float) + entityBytes] = player.PID;
     
     return data;
 }

@@ -29,6 +29,8 @@ Net::Packet& operator>>(Net::Packet& packet, Common::Entity& entity) {
     const Entity tmpEnt{Net::deserializeEntity(tmp)};
     entity.x = tmpEnt.x;
     entity.y = tmpEnt.y;
+    entity.velX = tmpEnt.velX;
+    entity.velY = tmpEnt.velY;
     entity.texID = tmpEnt.texID;
 
     packet.data.erase(packet.data.begin(), packet.data.begin() + entity.bytes());

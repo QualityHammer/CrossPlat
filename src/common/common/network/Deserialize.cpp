@@ -19,7 +19,9 @@ Common::Entity deserializeEntity(const std::vector<u8>& data) {
     Common::Entity entity;
     entity.x = deserializeFloat(data, 0);
     entity.y = deserializeFloat(data, sizeof(float));
-    entity.texID = data[sizeof(float) * 2];
+    entity.velX = deserializeFloat(data, sizeof(float) * 2);
+    entity.velY = deserializeFloat(data, sizeof(float) * 3);
+    entity.texID = data[sizeof(float) * 4];
     return entity;
 }
 
@@ -37,9 +39,11 @@ Common::Player deserializePlayer(const std::vector<u8>& data) {
     Common::Player player;
     player.x = tmp.x;
     player.y = tmp.y;
+    player.velX = tmp.velX;
+    player.velY = tmp.velY;
     player.texID = tmp.texID;
-    player.a = deserializeFloat(data, sizeof(float) * 2 + 1);
-    player.PID = data[sizeof(float) * 3 + 1];
+    player.a = deserializeFloat(data, tmp.bytes());
+    player.PID = data[sizeof(float) + tmp.bytes()];
     return player;
 }
 

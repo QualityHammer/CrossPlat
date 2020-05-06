@@ -3,10 +3,12 @@
 #include <common/network/Packet.hpp>
 #include <common/network/NetworkErrors.hpp>
 #include <common/Debug.hpp>
+#include "../ClientOptions.hpp"
 
 namespace Client {
 
-ClientNet::ClientNet(GameState& gameState) : m_client{nullptr}, m_server{nullptr}, m_gameState{gameState}, PID{0} {
+ClientNet::ClientNet(GameState& gameState) : m_client{nullptr}, m_server{nullptr}, m_gameState{gameState}, PID{0},
+     m_playerCountdown{1} {
     m_client = enet_host_create(NULL, 1, 2, 0, 0);
     if (m_client == nullptr) {
         ClientError(ClientErrorType::INIT_FAILED);
@@ -65,11 +67,15 @@ void ClientNet::getUpdates() {
     }
 }
 
-void ClientNet::sendPlayerControl(Common::PlayerControl& pc) {
+void ClientNet::sendPlayerPos(Common::Player& player) {
+  if (m_playerCountdown == 0) {
     Net::Packet packet{};
-    packet << pc;
-    Net::sendPacket(static_cast<u8>(Net::ClientCommand::PLAYER_CONTROL), packet, m_server);
+    packet << player;
+    Net::sendPacket(static_cast<u8>(Net::ClientCommand::PLAYER), packet, m_server);
     enet_host_flush(m_client);
+    m_playerCountdown = FPS / 4;
+  }
+  --m_playerCountdown;
 }
 
 void ClientNet::recievePacket(ENetEvent &event) {

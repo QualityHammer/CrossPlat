@@ -5,7 +5,7 @@
 namespace Net {
 
 enum class ClientCommand : u8 {
-    PLAYER_CONTROL
+    PLAYER
 };
 
 enum class ServerCommand : u8 {

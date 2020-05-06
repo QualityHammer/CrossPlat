@@ -3,7 +3,7 @@
 #include "../GameState.hpp"
 #include <common/network/Net.hpp>
 #include <common/network/NetworkCommands.hpp>
-#include <common/constructs/PlayerControl.hpp>
+#include <common/constructs/Player.hpp>
 
 namespace Client {
 
@@ -15,7 +15,7 @@ public:
     void connect();
     void disconnect();
     void getUpdates();
-    void sendPlayerControl(Common::PlayerControl& pc);
+    void sendPlayerPos(Common::Player& player);
     void recievePacket(ENetEvent& event);
 private:
     ENetHost* m_client;
@@ -23,6 +23,8 @@ private:
     ENetPeer* m_server;
     GameState& m_gameState;
     u8 PID;
+
+    u8 m_playerCountdown;
 };
 
 }
